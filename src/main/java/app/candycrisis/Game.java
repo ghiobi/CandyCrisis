@@ -16,8 +16,8 @@ public class Game {
 		return false;
 	}
 
-	public void move(PuzzleMove move) throws IllegalPuzzleMoveException {
-		
+	public void move(Piece piece) throws IllegalPuzzleMoveException {
+		this.puzzle.move(piece);
 	}
 
 }
