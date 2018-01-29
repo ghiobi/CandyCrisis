@@ -3,22 +3,25 @@ package app.candycrisis;
 import app.candycrisis.player.HumanPlayer;
 import app.candycrisis.player.Player;
 
+import java.util.List;
+
 public class CandyCrisis {
 	
-	private Game[] games;
-	
-	private Player player;
-	
-	public CandyCrisis(Game[] games) {
+	private List<Game> games;
+
+	public CandyCrisis(List<Game> games) {
 		this.games = games;
 	}
 
+	/**
+	 * Starts the Candy Crisis game.
+	 */
 	public void start() {
 		for (Game game : games) {
-			this.player = new HumanPlayer();
+			Player player = new HumanPlayer();
 			
 			while (!game.isEndGame()) {
-				Piece move = this.player.getMove(game);
+				Piece move = player.getMove(game);
 				
 				try {
 					game.move(move);

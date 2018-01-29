@@ -1,6 +1,7 @@
 package app.candycrisis;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Puzzle {
 	
@@ -48,7 +49,13 @@ public class Puzzle {
 		this.pieces[piecePosition] = this.emptyPiece;
 		this.pieces[emptyPiecePosition] = piece;
 	}
-	
+
+	/**
+	 * Checks if the current piece is valid move.
+	 *
+	 * @param moving the moving piece
+	 * @return a boolean describing if this is a valid move
+	 */
 	public boolean isValidMove(Piece moving) {
 		for (int index : this.getEmptyPiece().getNeighboringPositions()) {
 			if (index == moving.getPosition()) {
@@ -57,9 +64,14 @@ public class Puzzle {
 		}
 		return false;
 	}
-	
-	public LinkedList<Piece> getAvailableMoves() {
-		LinkedList<Piece> moveable = new LinkedList<Piece>();
+
+	/**
+	 * Returns a list of available pieces that may move.
+	 *
+	 * @return the list of available pieces to move
+	 */
+	public List<Piece> getAvailableMoves() {
+		List<Piece> moveable = new ArrayList<Piece>(4);
 		
 		int[] pieces = this.getEmptyPiece().getNeighboringPositions();
 		

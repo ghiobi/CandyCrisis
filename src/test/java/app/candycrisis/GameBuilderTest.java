@@ -3,6 +3,7 @@ package app.candycrisis;
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -14,13 +15,13 @@ public class GameBuilderTest {
 				+ "e g g r r r b w b b w y b b y";
 		GameBuilder builder = new GameBuilder(new StringReader(file));
 		
-		Game[] games = builder.build();
+		List<Game> games = builder.build();
 		
 		char[][] characters = {{'e', 'r', 'r', 'r', 'r', 'r', 'b', 'w', 'b', 'b', 'w', 'y', 'b', 'r', 'y'}, 
 				{'e', 'g', 'g', 'r', 'r', 'r', 'b', 'w', 'b', 'b', 'w', 'y', 'b', 'b', 'y'}};
 		
-		for (int i = 0; i < games.length; i++) {
-			Piece[] pieces = games[i].getPuzzle().getPieces();
+		for (int i = 0; i < games.size(); i++) {
+			Piece[] pieces = games.get(i).getPuzzle().getPieces();
 			for (int j = 0; j < 15; j++) {
 				assertEquals(characters[i][j], pieces[j].getCharacter());
 			}

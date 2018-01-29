@@ -31,7 +31,12 @@ public class Piece {
 	public void setPosition(int position) {
 		this.position = position;
 	}
-	
+
+	/**
+	 * Returns the top index position of the current piece.
+	 *
+	 * @return the index position of top
+	 */
 	public int getNeighboringTopPosition() {
 		int top = this.getPosition() - 5;
 		
@@ -41,7 +46,12 @@ public class Piece {
 		
 		return top;
 	}
-	
+
+	/**
+	 * Returns the bottom index position of the current piece.
+	 *
+	 * @return the index position of bottom
+	 */
 	public int getNeighboringBottomPosition() {
 		int bottom = this.getPosition() + 5;
 		
@@ -51,7 +61,12 @@ public class Piece {
 		
 		return bottom;
 	}
-	
+
+	/**
+	 * Returns the right index position of the current piece.
+	 *
+	 * @return the index position of right
+	 */
 	public int getNeighboringRightPosition() {
 		int right = this.getPosition() + 1;
 		
@@ -61,7 +76,12 @@ public class Piece {
 		
 		return right;
 	}
-	
+
+	/**
+	 * Returns the left index position of the current piece.
+	 *
+	 * @return the index position of left
+	 */
 	public int getNeighboringLeftPosition() {
 		if (this.getPosition() % 5 == 0) {
 			return Piece.OUT_OF_BOUNDS_POSITION;
@@ -69,7 +89,13 @@ public class Piece {
 		
 		return this.getPosition() - 1;
 	}
-	
+
+	/**
+	 * Returns the index positions of the neighboring pieces in the sequence of top, right, bottom, left. If an
+	 * index position is out of bounds Piece.OUT_OF_BOUNDS_POSITION is assigned.
+	 *
+	 * @return an array of index positions.
+	 */
 	public int[] getNeighboringPositions() {
 		return new int[]{
 			this.getNeighboringTopPosition(),

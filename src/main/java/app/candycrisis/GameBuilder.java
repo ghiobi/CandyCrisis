@@ -3,7 +3,8 @@ package app.candycrisis;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GameBuilder {
 	
@@ -18,10 +19,10 @@ public class GameBuilder {
 	 * 
 	 * @return an array of candy crisis games
 	 */
-	public Game[] build() {
+	public List<Game> build() {
 		BufferedReader in = null;
 		
-		ArrayList<Game> games = new ArrayList<Game>();
+		List<Game> games = new LinkedList<Game>();
 		
 		try {
 			in = new BufferedReader(reader);
@@ -38,7 +39,7 @@ public class GameBuilder {
 			e.printStackTrace();
 		}
 		
-		return games.toArray(new Game[games.size()]);
+		return games;
 	}
 	
 	/**

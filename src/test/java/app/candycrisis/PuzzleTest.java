@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -29,12 +30,11 @@ public class PuzzleTest {
 	public void testAvailableMoves() {
 		Puzzle puzzle = new Puzzle(MockObjects.piecesMock());
 		
-		LinkedList<Piece> available = puzzle.getAvailableMoves();
+		List<Piece> available = puzzle.getAvailableMoves();
 		assertEquals(2, available.size());
-		
-		Iterator<Piece> iterator = available.iterator();
-		assertEquals(iterator.next().getId(), 'F');
-		assertEquals(iterator.next().getId(), 'B');
+
+		assertEquals(available.get(0).getId(), 'B');
+		assertEquals(available.get(1).getId(), 'F');
 	}
 	
 	@Test
