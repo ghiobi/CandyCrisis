@@ -18,7 +18,7 @@ public class CandyCrisis {
 			this.player = new HumanPlayer();
 			
 			while (!game.isEndGame()) {
-				PuzzleMove move = this.player.getMove(game);
+				Piece move = this.player.getMove(game);
 				
 				try {
 					game.move(move);

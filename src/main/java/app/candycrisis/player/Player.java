@@ -1,10 +1,10 @@
 package app.candycrisis.player;
 
 import app.candycrisis.Game;
-import app.candycrisis.PuzzleMove;
+import app.candycrisis.Piece;
 
 public interface Player {
 	
-	public PuzzleMove getMove(Game game);
+	public Piece getMove(Game game);
 	
 }
