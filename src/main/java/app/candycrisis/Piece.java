@@ -1,6 +1,6 @@
 package app.candycrisis;
 
-public class Piece {
+public class Piece implements Cloneable {
 
 	private char id;
 	
@@ -118,5 +118,10 @@ public class Piece {
 			.append(" : ")
 			.append(this.character).toString();
 	}
-	
+
+	@Override
+	public Piece clone() {
+		return new Piece(this.id, this.position, this.character);
+	}
+
 }
