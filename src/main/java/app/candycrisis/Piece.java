@@ -1,6 +1,6 @@
 package app.candycrisis;
 
-public class Piece {
+public class Piece implements Cloneable {
 
 	private char id;
 	
@@ -105,10 +105,10 @@ public class Piece {
 		};
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return super.equals(obj);
+	public boolean equals(Piece piece) {
+		return this.getId() == piece.getId() &&
+				this.getPosition() == piece.getPosition() &&
+				this.getCharacter() == piece.getCharacter();
 	}
 
 	@Override
@@ -118,5 +118,10 @@ public class Piece {
 			.append(" : ")
 			.append(this.character).toString();
 	}
-	
+
+	@Override
+	public Piece clone() {
+		return new Piece(this.id, this.position, this.character);
+	}
+
 }

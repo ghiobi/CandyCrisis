@@ -3,9 +3,10 @@ package app.candycrisis;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Puzzle {
+public class Puzzle implements Cloneable {
 	
 	private Piece[] pieces;
+
 	private Piece emptyPiece;
 	
 	public Puzzle(Piece[] pieces) {
@@ -39,15 +40,17 @@ public class Puzzle {
 		if (piece == null || !this.isValidMove(piece) ) {
 			throw new IllegalPuzzleMoveException();
 		}
-		
-		int emptyPiecePosition = this.getEmptyPiece().getPosition();
-		int piecePosition = piece.getPosition();
-		
-		piece.setPosition(emptyPiecePosition);
-		this.getEmptyPiece().setPosition(piecePosition);
-		
-		this.pieces[piecePosition] = this.emptyPiece;
-		this.pieces[emptyPiecePosition] = piece;
+
+		int a = piece.getPosition();
+		int b = this.getEmptyPiece().getPosition();
+
+		piece = this.pieces[a];
+
+		this.getEmptyPiece().setPosition(a);
+		this.pieces[a] = this.emptyPiece;
+
+		piece.setPosition(b);
+		this.pieces[b] = piece;
 	}
 
 	/**
@@ -99,5 +102,16 @@ public class Puzzle {
 		
 		return builder.toString();
 	}
-	
+
+	@Override
+	public Puzzle clone() {
+		Piece[] array = new Piece[this.pieces.length];
+
+		for (int i = 0; i < array.length; i++) {
+			array[i] = this.pieces[i].clone();
+		}
+
+		return new Puzzle(array);
+	}
+
 }
