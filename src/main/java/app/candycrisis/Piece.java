@@ -105,10 +105,10 @@ public class Piece implements Cloneable {
 		};
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return super.equals(obj);
+	public boolean equals(Piece piece) {
+		return this.getId() == piece.getId() &&
+				this.getPosition() == piece.getPosition() &&
+				this.getCharacter() == piece.getCharacter();
 	}
 
 	@Override
