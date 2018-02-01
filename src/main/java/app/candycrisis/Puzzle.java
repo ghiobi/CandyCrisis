@@ -41,16 +41,16 @@ public class Puzzle implements Cloneable {
 			throw new IllegalPuzzleMoveException();
 		}
 
-		piece = this.pieces[piece.getPosition()];
-		
-		int emptyPiecePosition = this.getEmptyPiece().getPosition();
-		int piecePosition = piece.getPosition();
-		
-		piece.setPosition(emptyPiecePosition);
-		this.getEmptyPiece().setPosition(piecePosition);
-		
-		this.pieces[piecePosition] = this.emptyPiece;
-		this.pieces[emptyPiecePosition] = piece;
+		int a = piece.getPosition();
+		int b = this.getEmptyPiece().getPosition();
+
+		piece = this.pieces[a];
+
+		this.getEmptyPiece().setPosition(a);
+		this.pieces[a] = this.emptyPiece;
+
+		piece.setPosition(b);
+		this.pieces[b] = piece;
 	}
 
 	/**
@@ -113,4 +113,5 @@ public class Puzzle implements Cloneable {
 
 		return new Puzzle(array);
 	}
+
 }

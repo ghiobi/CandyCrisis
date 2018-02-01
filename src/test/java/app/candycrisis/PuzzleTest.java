@@ -46,6 +46,8 @@ public class PuzzleTest {
 			puzzle.move(piece);
 			
 			assertEquals(puzzle.getEmptyPiece().getPosition(), 1);
+			assertEquals(piece.getPosition(), 0);
+			assertEquals(puzzle.getPieces()[0].getId(), piece.getId());
 		} catch (IllegalPuzzleMoveException e) {
 			fail("Failed to move piece");
 		}
@@ -56,9 +58,19 @@ public class PuzzleTest {
 			puzzle.move(piece);
 			
 			assertEquals(puzzle.getEmptyPiece().getPosition(), 6);
+			assertEquals(piece.getPosition(), 1);
+			assertEquals(puzzle.getPieces()[1].getId(), piece.getId());
 		} catch (IllegalPuzzleMoveException e) {
 			fail("Failed to move piece");
 		}
+	}
+
+	@Test(expected = IllegalPuzzleMoveException.class)
+	public void testIllegalPieceMove() throws IllegalPuzzleMoveException{
+		Puzzle puzzle = new Puzzle(MockObjects.piecesMock());
+
+		puzzle.move(puzzle.getPieces()[8]);
+		fail("Did not throw IllegalPuzzleMoveException.");
 	}
 
 }
