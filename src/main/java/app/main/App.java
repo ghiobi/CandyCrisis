@@ -10,7 +10,7 @@ public class App
     public static void main( String[] args ) throws Exception
     {
     	new CandyCrisis((
-    			new GameBuilder(new FileReader("")))
+    			new GameBuilder(new FileReader("boards.txt")))
 			.build()).start();
     }
 }
