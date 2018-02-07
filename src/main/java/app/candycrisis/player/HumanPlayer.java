@@ -19,18 +19,18 @@ public class HumanPlayer implements Player {
         Scanner reader = new Scanner(System.in);
         List<Piece> options = game.getPuzzle().getAvailableMoves();
         Piece choice = null;
-        boolean validInput = true;
+        boolean notValid = true;
 
         System.out.println(game.getPuzzle().toString());
-        System.out.println(options + " (starting from 0 to " + (options.size()-1) + ")");
+        System.out.println(options + " (starting from 1 to " + options.size() + ")");
 
         // loops until user enters a valid index
-        while (validInput){
+        while (notValid){
             try{
                 System.out.print("Select which index:");
                 int n = reader.nextInt();
-                choice = options.get(n);
-                validInput = false;
+                choice = options.get(n-1);
+                notValid = false;
             } catch (IndexOutOfBoundsException e){
                 System.out.println("Index out of bounds. Invalid input, please try again!");
             }
