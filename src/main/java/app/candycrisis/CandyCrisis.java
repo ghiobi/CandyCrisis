@@ -22,11 +22,11 @@ public class CandyCrisis {
 			
 			while (!game.isEndGame()) {
 				Piece move = player.getMove(game);
-				
+
 				try {
 					game.move(move);
-				} catch (IllegalPuzzleMoveException e) {
-					// TODO Auto-generated catch block
+				}
+				catch (IllegalPuzzleMoveException e) {
 					e.printStackTrace();
 				}
 			}
