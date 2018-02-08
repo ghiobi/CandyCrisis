@@ -18,8 +18,18 @@ public class Game implements Cloneable {
 	 * @return returns boolean if it is the end of a game
 	 */
 	public boolean isEndGame() {
-		return false;
+
+		Piece[] pieces = puzzle.getPieces();
+
+		for(int i=0; i<=4; i++){
+			if(pieces[i].getCharacter() != pieces[10+i].getCharacter()){
+				return false;
+			}
+		}
+
+		return true;
 	}
+
 
 	public void move(Piece piece) throws IllegalPuzzleMoveException {
 		this.puzzle.move(piece);
