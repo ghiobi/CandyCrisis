@@ -38,4 +38,6 @@ public class HumanPlayer implements Player {
 		return choice;
 	}
 
+    public void end() { }
+
 }

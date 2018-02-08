@@ -44,6 +44,7 @@ public class CandyCrisis {
 			}
 
 			logger.end();
+			player.end();
 		}
 
 		if (this.onEnd != null) {

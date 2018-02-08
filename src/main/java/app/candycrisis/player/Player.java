@@ -6,5 +6,7 @@ import app.candycrisis.Piece;
 public interface Player {
 	
 	public Piece getMove(Game game);
+
+	public void end();
 	
 }
