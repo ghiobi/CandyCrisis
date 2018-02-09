@@ -53,16 +53,15 @@ public class GameBuilder {
 		String[] strings = string.split(" ");
 		
 		for (int i = 0; i < pieces.length; i++) {
-			char id = (char) (i + 65);
 			char character = strings[i].charAt(0);
 			
 			if (character != EmptyPiece.EMPTY_PIECE_CHARACTER) {
-				pieces[i] = new Piece(id, i, character);
+				pieces[i] = new Piece(i, character);
 			} else {
-				pieces[i] = new EmptyPiece(id, i);
+				pieces[i] = new EmptyPiece(i);
 			}
 		}
 		
-		return new Game(new Puzzle(pieces));
+		return new Game(pieces);
 	}
 }
