@@ -1,6 +1,5 @@
 package app.candycrisis;
 
-import app.candycrisis.player.HumanPlayer;
 import app.candycrisis.player.Player;
 import app.candycrisis.utils.Action;
 import app.candycrisis.utils.Event;
@@ -15,8 +14,11 @@ public class CandyCrisis {
 
 	private GameLogger logger = new GameLogger();
 
-	public CandyCrisis(List<Game> games) {
+	private Player player;
+
+	public CandyCrisis(List<Game> games, Player player) {
 		this.games = games;
+		this.player = player;
 	}
 
 	/**
@@ -27,24 +29,27 @@ public class CandyCrisis {
 		for (Game game : games) {
 
 			logger.start();
-			Player player = new HumanPlayer();
+			player.init();
 			
 			while (!game.isEndGame()) {
 
                 System.out.println(game.toString());
+				System.out.println();
+
 				Piece move = player.getMove(game);
+				char id = move.getId();
 
 				try {
 					game.move(move);
-					logger.recordMove(move);
+					logger.recordMove(id);
 				} catch (IllegalPuzzleMoveException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 
-			logger.end();
 			player.end();
+			logger.end();
 		}
 
 		if (this.onEnd != null) {

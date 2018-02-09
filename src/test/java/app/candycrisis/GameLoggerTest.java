@@ -27,9 +27,9 @@ public class GameLoggerTest {
 		GameLogger logger = new GameLogger();
 		logger.start();
 
-		logger.recordMove(new Piece(0, 'r'));
-		logger.recordMove(new Piece(2, 'e'));
-		logger.recordMove(new Piece(4, 'b'));
+		logger.recordMove(new Piece(0, 'r').getId());
+		logger.recordMove(new Piece(2, 'e').getId());
+		logger.recordMove(new Piece(4, 'b').getId());
 
 		logger.end();
 

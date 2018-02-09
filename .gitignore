@@ -8,6 +8,7 @@ bin
 .idea/
 *.iml
 *.iws
+build/
 
 # Mac
 .DS_Store
@@ -15,3 +16,6 @@ bin
 # Maven
 log/
 target/
+
+#project specific
+output.txt

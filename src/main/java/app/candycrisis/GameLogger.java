@@ -34,8 +34,8 @@ public class GameLogger {
      *
      * @param piece the piece to record.
      */
-    public void recordMove(Piece piece) {
-        this.log.append(piece.getId());
+    public void recordMove(char piece) {
+        this.log.append(piece);
     }
 
     /**
@@ -44,7 +44,6 @@ public class GameLogger {
      * @return string log.
      */
     public String toString() {
-        System.out.println(this.log.toString());
         return this.log.toString();
     }
 

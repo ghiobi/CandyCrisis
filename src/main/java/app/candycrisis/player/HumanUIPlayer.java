@@ -18,7 +18,7 @@ public class HumanUIPlayer implements Player {
 
     private Piece selected;
 
-    public HumanUIPlayer() {
+    public void init() {
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.frame.setContentPane(this.container);
         this.frame.setSize(300, 170);

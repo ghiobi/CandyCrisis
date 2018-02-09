@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 public class HumanPlayer implements Player {
 
+    public void init() { }
+
     /**
      * Manual entry for the player and checks for valid input
      *
@@ -34,6 +36,7 @@ public class HumanPlayer implements Player {
                 System.out.println("Index out of bounds. Invalid input, please try again!");
             }
         }
+        System.out.println();
 
 		return choice;
 	}
