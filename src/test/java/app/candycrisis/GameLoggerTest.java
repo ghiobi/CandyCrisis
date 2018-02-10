@@ -27,16 +27,16 @@ public class GameLoggerTest {
 		GameLogger logger = new GameLogger();
 		logger.start();
 
-		logger.recordPiece(new Piece(0, 'r'));
-		logger.recordPiece(new Piece(2, 'e'));
-		logger.recordPiece(new Piece(4, 'b'));
+		logger.recordMove(new Piece(0, 'r'));
+		logger.recordMove(new Piece(2, 'e'));
+		logger.recordMove(new Piece(4, 'b'));
 
 		logger.end();
 
 		String log = logger.toString();
 
 		assertEquals(log.substring(0, log.indexOf('\n')), "ACE");
-		assertTrue(Pattern.matches("\\d+ms", log.substring(log.indexOf('\n') + 1, log.lastIndexOf('\n'))));
+		assertTrue(Pattern.matches("\\d+ ms", log.substring(log.indexOf('\n') + 1, log.lastIndexOf('\n'))));
 	}
 
 }
