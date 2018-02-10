@@ -1,56 +1,51 @@
 package app.candycrisis;
 
-import java.io.*;
-
 public class GameLogger {
 
     private long startTime;
-    private long endTime;
-    private PrintWriter outputMoves;
+
+    private StringBuilder log;
 
     public GameLogger() {
-        try {
-            outputMoves = new PrintWriter(new FileWriter("output.txt"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.log = new StringBuilder();
     }
 
+    /**
+     *  Sets up the initial starting time of the game.
+     */
     public void start(){
-        startTime = System.nanoTime();
+        startTime = System.currentTimeMillis();
     }
 
+    /**
+     * Logs the duration of a game when a game is ending.
+     *
+     * @return the duration of the game.
+     */
     public long end() {
-        endTime = System.nanoTime();
-        long duration = endTime - startTime;
-        outputMoves.println();
-        outputMoves.print(String.valueOf(duration) +" ms");
-        outputMoves.close();
-        return endTime - startTime;
+        long duration = System.currentTimeMillis() - startTime;
+
+        this.log.append('\n').append(duration).append(" ms\n");
+        return duration;
     }
 
+    /**
+     * Records a moving piece.
+     *
+     * @param piece the piece to record.
+     */
     public void recordMove(Piece piece) {
-        char id = piece.getId();
-        outputMoves.print(id);
+        this.log.append(piece.getId());
     }
 
+    /**
+     * Returns the complete string log.
+     *
+     * @return string log.
+     */
     public String toString() {
-        BufferedReader input = null;
-        String output = "";
-        try {
-            input = new BufferedReader(new FileReader("output.txt"));
-            String line = input.readLine();
-            while(line != null) {
-                output += line;
-                output += "\n";
-                line = input.readLine();
-            }
-            input.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return output;
+        System.out.println(this.log.toString());
+        return this.log.toString();
     }
+
 }
