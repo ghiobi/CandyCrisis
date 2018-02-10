@@ -2,22 +2,24 @@ package app.candycrisis;
 
 public class Piece implements Cloneable {
 
-	private char id;
-	
 	private int position;
-	
+
 	private char character;
 	
 	public final static int OUT_OF_BOUNDS_POSITION = -1;
 	
-	public Piece(char id, int position, char character) {
-		this.id = id;
+	public Piece(int position, char character) {
 		this.position = position;
 		this.character = character;
 	}
-	
+
+	/**
+	 * Returns the relative character id based on the position.
+	 *
+	 * @return
+	 */
 	public char getId() {
-		return id;
+		return (char) (this.getPosition() + 65);
 	}
 	
 	public char getCharacter() {
@@ -105,23 +107,28 @@ public class Piece implements Cloneable {
 		};
 	}
 
+	/**
+	 * Checks if piece is similar to the given piece.
+	 *
+	 * @param piece the piece to compare against.
+	 * @return boolean
+	 */
 	public boolean equals(Piece piece) {
-		return this.getId() == piece.getId() &&
-				this.getPosition() == piece.getPosition() &&
+		return this.getPosition() == piece.getPosition() &&
 				this.getCharacter() == piece.getCharacter();
 	}
 
 	@Override
 	public String toString() {
 		return (new StringBuilder())
-			.append(this.id)
+			.append(this.getId())
 			.append(" : ")
 			.append(this.character).toString();
 	}
 
 	@Override
 	public Piece clone() {
-		return new Piece(this.id, this.position, this.character);
+		return new Piece(this.position, this.character);
 	}
 
 }

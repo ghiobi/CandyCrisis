@@ -21,7 +21,7 @@ public class GameBuilderTest {
 				{'e', 'g', 'g', 'r', 'r', 'r', 'b', 'w', 'b', 'b', 'w', 'y', 'b', 'b', 'y'}};
 		
 		for (int i = 0; i < games.size(); i++) {
-			Piece[] pieces = games.get(i).getPuzzle().getPieces();
+			Piece[] pieces = games.get(i).getPieces();
 			for (int j = 0; j < 15; j++) {
 				assertEquals(characters[i][j], pieces[j].getCharacter());
 			}

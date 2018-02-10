@@ -17,7 +17,7 @@ public class HumanPlayer implements Player {
 	public Piece getMove(Game game) {
 
         Scanner reader = new Scanner(System.in);
-        List<Piece> options = game.getPuzzle().getAvailableMoves();
+        List<Piece> options = game.getAvailableMoves();
         Piece choice = null;
         boolean notValid = true;
 
