@@ -30,8 +30,10 @@ public class CandyCrisis {
 			Player player = new HumanPlayer();
 			
 			while (!game.isEndGame()) {
+
+                System.out.println(game.toString());
 				Piece move = player.getMove(game);
-				
+
 				try {
 					game.move(move);
 					logger.recordMove(move);
