@@ -21,7 +21,6 @@ public class HumanPlayer implements Player {
         Piece choice = null;
         boolean notValid = true;
 
-        System.out.println(game.getPuzzle().toString());
         System.out.println(options + " (starting from 1 to " + options.size() + ")");
 
         // loops until user enters a valid index

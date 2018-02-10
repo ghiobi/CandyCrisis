@@ -21,6 +21,8 @@ public class CandyCrisis {
 			Player player = new HumanPlayer();
 			
 			while (!game.isEndGame()) {
+
+                System.out.println(game.getPuzzle().toString());
 				Piece move = player.getMove(game);
 
 				try {
