@@ -1,7 +1,9 @@
 package app.candycrisis;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Game implements Cloneable {
 
@@ -73,18 +75,27 @@ public class Game implements Cloneable {
 	 *
 	 * @return the list of available pieces to move
 	 */
+	@Deprecated
 	public List<Piece> getAvailableMoves() {
-		List<Piece> moveable = new ArrayList<Piece>(4);
+		return Arrays.stream(this.getArrayOfAvailableMoves())
+				.filter(Objects::nonNull)
+				.collect(Collectors.toList());
+	}
 
-		int[] pieces = this.getEmptyPiece().getNeighboringPositions();
+	/**
+	 * Returns an array of available pieces with in the order of positions - top, right, bottom, left.
+	 *
+	 * @return the list of pieces to move, may be null to indicate move is out of bounds.
+	 */
+	public Piece[] getArrayOfMoves() {
+		int[] positions = this.getEmptyPiece().getNeighboringPositions();
+		Piece[] available = new Piece[positions.length];
 
-		for (int index : pieces) {
-			if (index != Piece.OUT_OF_BOUNDS_POSITION) {
-				moveable.add(this.pieces[index]);
-			}
+		for (int i = 0; i < positions.length; i++) {
+			available[i] = positions[i] != Piece.OUT_OF_BOUNDS_POSITION ? this.pieces[positions[i]] : null;
 		}
 
-		return moveable;
+		return available;
 	}
 
 	/**
