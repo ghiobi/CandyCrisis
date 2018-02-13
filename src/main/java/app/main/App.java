@@ -40,19 +40,19 @@ public class App
     	new CandyCrisis((
     			new GameBuilder(new FileReader(line.getOptionValue("board")))).build(),
                 getPlayer(line.hasOption("player") ? line.getOptionValue("player").charAt(0) : 'c'))
-            .onEnd(new Action<String>() {
-                public void performAction(Event<String> event) {
-                    PrintWriter writer = null;
-                    try {
-                        writer = new PrintWriter(new FileWriter(line.hasOption("output") ? line.getOptionValue("output") : "output.txt"));
-                        writer.println(event.getSource().replaceAll("\n", "\r\n"));
-                        System.out.println(event.getSource());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        if (writer != null) {
-                            writer.close();
-                        }
+            .onEnd((event) -> {
+                PrintWriter writer = null;
+                try {
+                    String filename = line.hasOption("output") ? line.getOptionValue("output") : "output.txt";
+                    writer = new PrintWriter(new FileWriter(filename));
+
+                    writer.println(event.getSource().replaceAll("\n", "\r\n"));
+                    System.out.println(event.getSource());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (writer != null) {
+                        writer.close();
                     }
                 }
             })

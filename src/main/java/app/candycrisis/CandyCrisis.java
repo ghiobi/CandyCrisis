@@ -28,6 +28,7 @@ public class CandyCrisis {
 
 		for (Game game : games) {
 
+			printNewGameMessage();
 			logger.start();
 			player.init();
 			
@@ -53,7 +54,7 @@ public class CandyCrisis {
 		}
 
 		if (this.onEnd != null) {
-			this.onEnd.performAction(new Event<String>(this.logger.toString()));
+			this.onEnd.performAction(new Event<>(this.logger.toString()));
 		}
 	}
 
@@ -62,4 +63,10 @@ public class CandyCrisis {
 		return this;
 	}
 
+	private void printNewGameMessage() {
+		System.out.println("^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^");
+		System.out.println("~~~~~A NEW CANDY CRISIS GAME STARTED~~~~~");
+		System.out.println("^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^\n");
+	}
+	
 }

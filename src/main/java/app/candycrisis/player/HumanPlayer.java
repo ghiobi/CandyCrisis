@@ -3,12 +3,17 @@ package app.candycrisis.player;
 import app.candycrisis.Game;
 import app.candycrisis.Piece;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class HumanPlayer implements Player {
 
-    public void init() { }
+    private Scanner reader;
+
+    public void init() {
+        this.reader = new Scanner(System.in);
+    }
 
     /**
      * Manual entry for the player and checks for valid input
@@ -17,28 +22,26 @@ public class HumanPlayer implements Player {
      * @return valid piece move
      */
 	public Piece getMove(Game game) {
-
-        Scanner reader = new Scanner(System.in);
         List<Piece> options = game.getAvailableMoves();
-        Piece choice = null;
-        boolean notValid = true;
-
-        System.out.println(options + " (starting from 1 to " + options.size() + ")");
+        System.out.println(options);
 
         // loops until user enters a valid index
-        while (notValid){
-            try{
-                System.out.print("Select which index:");
-                int n = reader.nextInt();
-                choice = options.get(n-1);
-                notValid = false;
-            } catch (IndexOutOfBoundsException e){
-                System.out.println("Index out of bounds. Invalid input, please try again!");
+        while (true) {
+            try {
+                System.out.print("Type an option to select (1 to " + options.size() + "): ");
+                if (reader.hasNextInt()) {
+                    int n = reader.nextInt();
+
+                    System.out.println();
+                    return options.get(n - 1);
+                }
+                reader.next();
+                System.out.println();
+                throw new InputMismatchException();
+            } catch (IndexOutOfBoundsException|InputMismatchException e) {
+                System.out.println("Option not valid or incorrect, please try again!");
             }
         }
-        System.out.println();
-
-		return choice;
 	}
 
     public void end() { }
