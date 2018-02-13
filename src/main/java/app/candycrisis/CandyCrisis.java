@@ -30,7 +30,7 @@ public class CandyCrisis {
 
 			printNewGameMessage();
 			logger.start();
-			player.init();
+			player.init(game);
 			
 			while (!game.isEndGame()) {
 

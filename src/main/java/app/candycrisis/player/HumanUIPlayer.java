@@ -18,7 +18,7 @@ public class HumanUIPlayer implements Player {
 
     private Piece selected;
 
-    public void init() {
+    public void init(Game game) {
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.frame.setContentPane(this.container);
         this.frame.setSize(300, 170);

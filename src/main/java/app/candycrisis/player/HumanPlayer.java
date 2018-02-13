@@ -11,7 +11,7 @@ public class HumanPlayer implements Player {
 
     private Scanner reader;
 
-    public void init() {
+    public void init(Game game) {
         this.reader = new Scanner(System.in);
     }
 
