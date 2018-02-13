@@ -68,5 +68,5 @@ public class CandyCrisis {
 		System.out.println("~~~~~A NEW CANDY CRISIS GAME STARTED~~~~~");
 		System.out.println("^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^\n");
 	}
-	
+
 }

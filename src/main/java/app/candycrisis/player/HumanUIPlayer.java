@@ -48,6 +48,7 @@ public class HumanUIPlayer implements Player {
 
         pressed = false;
 
+        System.out.println("Selected: " + selected.toString() + "\n");
         return selected;
     }
 
