@@ -77,7 +77,7 @@ public class Game implements Cloneable {
 	 */
 	@Deprecated
 	public List<Piece> getAvailableMoves() {
-		return Arrays.stream(this.getArrayOfAvailableMoves())
+		return Arrays.stream(this.getArrayOfMoves())
 				.filter(Objects::nonNull)
 				.collect(Collectors.toList());
 	}
