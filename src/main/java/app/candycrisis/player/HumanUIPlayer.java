@@ -4,6 +4,7 @@ import app.candycrisis.Game;
 import app.candycrisis.Piece;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -108,6 +109,7 @@ public class HumanUIPlayer implements Player {
         public Button(String label, int position) {
             super(label);
             this.position = position;
+            this.setPreferredSize(new Dimension(50,25));
         }
 
         public int getPosition() {
