@@ -7,6 +7,7 @@ import app.candycrisis.GameBuilder;
 import app.candycrisis.player.HumanPlayer;
 import app.candycrisis.player.HumanUIPlayer;
 import app.candycrisis.player.Player;
+import app.candycrisis.player.SuperSolver;
 import app.candycrisis.utils.Action;
 import app.candycrisis.utils.Event;
 
@@ -66,9 +67,7 @@ public class App
             case 'i':
                 return new HumanUIPlayer();
             case 'a':
-                System.out.println("Automatic player not implemented yet");
-                System.exit(0);
-                return null;
+                return new SuperSolver();
             default:
                 return new HumanPlayer();
         }
