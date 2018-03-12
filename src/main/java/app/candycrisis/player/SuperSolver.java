@@ -155,23 +155,31 @@ public class SuperSolver implements Player {
 						int count = 0;
 						Piece[] pieces = game.getPieces();
 
+						int[] positions = game.getEmptyPiece().getNeighboringPositions();
+
+						for (int i = 0; i < positions.length; i++) {
+							if (positions[i] != Piece.OUT_OF_BOUNDS_POSITION) {
+								count++;
+							}
+						}
 
 						for (int i = 0; i < 5; i++) {
 
 							if (pieces[i].getCharacter() != pieces[i + 10].getCharacter()) {
-								if(piece[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER && piece[i+10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER){
+								if((pieces[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) || (pieces[i+10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)){
 									count++;
+									count+=i;
 								}
 							}
 
 							if ((pieces[i].getCharacter() != pieces[i + 10].getCharacter())&&(pieces[i].getCharacter() != pieces[i + 5].getCharacter())) {
-								if(piece[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER && piece[i+5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER){
+								if((pieces[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) || (pieces[i+5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)){
 									count++;
 								}
 							}
 
 							if ((pieces[i].getCharacter() != pieces[i + 10].getCharacter())&&(pieces[i+5].getCharacter() != pieces[i + 10].getCharacter())) {
-								if(piece[i+5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER && piece[i+10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER){
+								if((pieces[i+5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) || (pieces[i+10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)){
 									count++;
 								}
 							}
