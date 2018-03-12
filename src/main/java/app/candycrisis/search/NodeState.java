@@ -1,7 +1,5 @@
 package app.candycrisis.search;
 
-import java.util.List;
-
 public class NodeState<S, A> implements Comparable<NodeState<S, A>> {
 
     private NodeState parent;

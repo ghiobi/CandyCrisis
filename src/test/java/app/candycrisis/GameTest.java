@@ -14,7 +14,7 @@ public class GameTest {
 		
 		assertEquals("A : e | B : r | C : r | D : r | E : r\n"
 				+ "F : r | G : b | H : w | I : b | J : b\n"
-				+ "K : w | L : y | M : b | N : r | O : y", game.toString());
+				+ "K : w | L : y | M : b | N : r | O : y", game.toGameString());
 	}
 	
 	@Test

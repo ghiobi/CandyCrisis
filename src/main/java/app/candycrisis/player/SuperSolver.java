@@ -8,8 +8,8 @@ import app.candycrisis.search.functions.ActionStateTransitionFunction;
 import app.candycrisis.search.functions.CostFunction;
 import app.candycrisis.search.functions.GoalFunction;
 import app.candycrisis.search.functions.HeuristicFunction;
-import com.google.common.collect.Lists;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class SuperSolver implements Player {
             return state.getState().isEndGame();
         });
 
-        solution = Lists.reverse(result.solution());
+        solution = result.solution();
         step = 0;
     }
 

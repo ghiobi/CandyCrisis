@@ -2,10 +2,7 @@ package app.candycrisis.search;
 
 import app.candycrisis.search.functions.*;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class AStarSearchProblem<S, A> {
 
@@ -21,56 +18,82 @@ public class AStarSearchProblem<S, A> {
 
     private HashMap<String, NodeState<S, A>> closedMap;
 
-    private S initalState;
-
+    /**
+     * Initializes an AStar search problem with an initial state.
+     *
+     * @param initalState a state
+     */
     public AStarSearchProblem(S initalState) {
-        this.openQueue = new PriorityQueue<>();
-        this.closedMap = new HashMap<>();
+        this.openQueue = new PriorityQueue<>(100000);
+        this.closedMap = new HashMap<>(100000);
 
-        this.initalState = initalState;
+        this.openQueue.add(new NodeState<>(initalState));
     }
 
+    /**
+     * Closure for getting the estimation of a state.
+     *
+     * @param heuristicFn the function
+     * @return AStarSearchProblem
+     */
     public AStarSearchProblem useHeuristicFunction(HeuristicFunction<S> heuristicFn) {
         this.heuristicFn = heuristicFn;
         return this;
     }
 
+    /**
+     * Closure for getting the cost of transitioning to the next step.
+     *
+     * @param costFn the function
+     * @return AStarSearchProblem
+     */
     public AStarSearchProblem useCostFunction(CostFunction<S, A> costFn) {
         this.costFn = costFn;
         return this;
     }
 
+    /**
+     * Closure for getting a list of actions.
+     *
+     * @param actionFn the function
+     * @return AStarSearchProblem
+     */
     public AStarSearchProblem useActionFunction(ActionFunction<S, A> actionFn) {
         this.actionFn = actionFn;
         return this;
     }
 
+    /**
+     * Closure for applying the action to a state.
+     *
+     * @param actionStateTransitionFn the function
+     * @return AStarSearchProblem
+     */
     public AStarSearchProblem useActionStateTransitionFunction(ActionStateTransitionFunction<S, A> actionStateTransitionFn) {
         this.actionStateTransitionFn = actionStateTransitionFn;
         return this;
     }
 
+    /**
+     * Performs the A* search algorithm.
+     *
+     * @param goal the goal function
+     * @return returns the SearchResult object containing the end node.
+     */
     public SearchResult search(GoalFunction<S, A> goal) {
-        int estimation = this.heuristicFn.estimate(this.initalState);
-        this.openQueue.add(new NodeState<>(this.initalState, null, 0, estimation, null));
+        NodeState<S, A> current = null;
 
         while (!this.openQueue.isEmpty()) {
-            NodeState<S, A> current = this.openQueue.poll();
+            current = this.openQueue.poll();
 
             if (goal.reached(current)) {
-                return new SearchResult(current);
+                break;
             }
 
             for (A action: this.actionFn.actionsFor(current.getState())) {
                 S successorState = this.actionStateTransitionFn.apply(current.getState(), action);
 
-                if (this.closedMap.containsKey(successorState.toString())) {
-//                    NodeState<S, A> oldNode = this.closedMap.get(successorState.toString());
-//
-//                    if (oldNode.getTransitionCost() < current.getTransitionCost() + this.costFn.evaluate(successorState, action)) {
-//
-//                    }
-                } else {
+                if (!this.closedMap.containsKey(successorState.toString())) {
                     int successorCost = current.getTransitionCost() + this.costFn.evaluate(successorState, action);
                     int successorHeuristic = this.heuristicFn.estimate(successorState);
 
@@ -82,17 +105,27 @@ public class AStarSearchProblem<S, A> {
             }
         }
 
-        return null;
+        return new SearchResult(current);
     }
 
     public class SearchResult {
 
         private NodeState<S, A> node;
 
-        public SearchResult(NodeState<S, A> node) {
+        /**
+         * Initializes a search result object contain methods for generating solutions.
+         *
+         * @param node the end goal node
+         */
+        private SearchResult(NodeState<S, A> node) {
             this.node = node;
         }
 
+        /**
+         * Returns the solution action path.
+         *
+         * @return List<A> actions.
+         */
         public List<A> solution() {
             NodeState<S, A> current = this.node;
             List<A> actions = new LinkedList<A>();
@@ -103,6 +136,7 @@ public class AStarSearchProblem<S, A> {
                 current = current.getParent();
             }
 
+            Collections.reverse(actions);
             return actions;
         }
 

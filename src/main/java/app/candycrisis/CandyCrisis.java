@@ -34,7 +34,7 @@ public class CandyCrisis {
 			
 			while (!game.isEndGame()) {
 
-                System.out.println(game.toString());
+                System.out.println(game.toGameString());
 				System.out.println();
 
 				Piece move = player.getMove(game);
