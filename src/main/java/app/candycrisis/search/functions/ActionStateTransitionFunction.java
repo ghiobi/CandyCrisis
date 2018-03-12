@@ -1,4 +1,4 @@
-package app.candycrisis.utils.search.functions;
+package app.candycrisis.search.functions;
 
 public interface ActionStateTransitionFunction<S, A> {
 

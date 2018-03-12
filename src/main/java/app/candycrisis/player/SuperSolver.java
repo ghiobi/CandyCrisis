@@ -3,12 +3,11 @@ package app.candycrisis.player;
 import app.candycrisis.Game;
 import app.candycrisis.IllegalPuzzleMoveException;
 import app.candycrisis.Piece;
-import app.candycrisis.utils.search.AStarSearchProblem;
-import app.candycrisis.utils.search.NodeState;
-import app.candycrisis.utils.search.functions.ActionStateTransitionFunction;
-import app.candycrisis.utils.search.functions.CostFunction;
-import app.candycrisis.utils.search.functions.GoalFunction;
-import app.candycrisis.utils.search.functions.HeuristicFunction;
+import app.candycrisis.search.AStarSearchProblem;
+import app.candycrisis.search.functions.ActionStateTransitionFunction;
+import app.candycrisis.search.functions.CostFunction;
+import app.candycrisis.search.functions.GoalFunction;
+import app.candycrisis.search.functions.HeuristicFunction;
 import com.google.common.collect.Lists;
 
 import java.util.LinkedList;
@@ -35,7 +34,7 @@ public class SuperSolver implements Player {
                 })
                 .useCostFunction((CostFunction<Game, Action>) (game, action) -> {
                     // Every movement has the same cost, 1
-                    return 1d;
+                    return 1;
                 })
                 .useHeuristicFunction((HeuristicFunction<Game>) game -> {
                     int count = 0;
@@ -47,7 +46,7 @@ public class SuperSolver implements Player {
                         }
                     }
 
-                    return (double) count;
+                    return count;
                 });
 
         AStarSearchProblem.SearchResult result = problem.search((GoalFunction<Game, Action>) state -> {

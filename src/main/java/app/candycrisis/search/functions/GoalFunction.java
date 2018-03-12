@@ -1,6 +1,6 @@
-package app.candycrisis.utils.search.functions;
+package app.candycrisis.search.functions;
 
-import app.candycrisis.utils.search.NodeState;
+import app.candycrisis.search.NodeState;
 
 public interface GoalFunction<S, A> {
 
