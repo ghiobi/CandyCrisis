@@ -22,6 +22,8 @@ public class AStarSearchProblem<S, A> {
 
     private HashMap<String, NodeState<S, A>> closedMap;
 
+    private int iterations = 0;
+
     /**
      * Initializes an AStar search problem with an initial state.
      *
@@ -107,22 +109,27 @@ public class AStarSearchProblem<S, A> {
                     this.closedMap.put(current.getState().toString(), current);
                 }
             }
+
+            iterations++;
         }
 
-        return new SearchResult(current);
+        return new SearchResult(current, iterations);
     }
 
     public class SearchResult {
 
         private NodeState<S, A> node;
 
+        private int iterations;
+
         /**
          * Initializes a search result object contain methods for generating solutions.
          *
          * @param node the end goal node
          */
-        private SearchResult(NodeState<S, A> node) {
+        private SearchResult(NodeState<S, A> node, int iterations) {
             this.node = node;
+            this.iterations = iterations;
         }
 
         /**
@@ -142,6 +149,10 @@ public class AStarSearchProblem<S, A> {
 
             Collections.reverse(actions);
             return actions;
+        }
+
+        public int iterations() {
+            return this.iterations;
         }
 
     }
