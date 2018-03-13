@@ -99,18 +99,24 @@ public class AStarSearchProblem<S, A> {
             for (A action: this.actionFn.actionsFor(current.getState())) {
                 S successorState = this.actionStateTransitionFn.apply(current.getState(), action);
 
-                if (!this.closedMap.containsKey(successorState.toString())) {
-                    int successorCost = current.getTransitionCost() + this.costFn.evaluate(successorState, action);
-                    int successorHeuristic = this.heuristicFn.estimate(successorState);
-
-                    NodeState<S, A> node = new NodeState<>(successorState, action, successorCost, successorHeuristic, current);
-                    this.openQueue.add(node);
-
-                    this.closedMap.put(current.getState().toString(), current);
+                if (this.closedMap.containsKey(successorState.toString())) {
+                    continue;
                 }
+
+                int successorCost = current.getTransitionCost() + this.costFn.evaluate(successorState, action);
+                int successorHeuristic = this.heuristicFn.estimate(successorState);
+
+                NodeState<S, A> node = new NodeState<>(successorState, action, successorCost, successorHeuristic, current);
+
+                if (goal.reached(node)) {
+                    return new SearchResult(node, iterations);
+                }
+
+                this.openQueue.add(node);
             }
 
             iterations++;
+            this.closedMap.put(current.getState().toString(), current);
         }
 
         return new SearchResult(current, iterations);
