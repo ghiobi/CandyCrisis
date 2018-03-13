@@ -2,7 +2,11 @@ package app.candycrisis.search;
 
 import app.candycrisis.search.functions.*;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.PriorityQueue;
 
 public class AStarSearchProblem<S, A> {
 

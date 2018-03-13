@@ -3,8 +3,6 @@ package app.candycrisis;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,8 +29,10 @@ public class GameBuilder {
 			
 			String line = in.readLine();
 			
-			while(line != null) {	
-				games.add(this.buildGameFromString(line));
+			while(line != null) {
+				char[] strings = String.join("", line.split(" ")).toCharArray();
+
+				games.add(GameBuilder.buildGameFromChars(strings));
 				line = in.readLine();
 			}
 			
@@ -47,15 +47,14 @@ public class GameBuilder {
 	/**
 	 * Builds game from a one line string.
 	 * 
-	 * @param string
+	 * @param strings
 	 * @return the candy crisis game
 	 */
-	protected Game buildGameFromString(String string) {
+	public static Game buildGameFromChars(char[] strings) {
 		Piece[] pieces = new Piece[15];
-		String[] strings = string.split(" ");
 		
 		for (int i = 0; i < pieces.length; i++) {
-			char character = strings[i].charAt(0);
+			char character = strings[i];
 			
 			if (character != EmptyPiece.EMPTY_PIECE_CHARACTER) {
 				pieces[i] = new Piece(i, character);
