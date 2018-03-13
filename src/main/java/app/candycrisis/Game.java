@@ -115,8 +115,7 @@ public class Game implements Cloneable {
 		return true;
 	}
 
-	@Override
-	public String toString() {
+	public String toGameString() {
 		StringBuilder builder = new StringBuilder();
 
 		for (int i = 0; i < pieces.length; i++) {
@@ -126,6 +125,17 @@ public class Game implements Cloneable {
 				builder.append("\n");
 			}
 			builder.append(pieces[i].toString());
+		}
+
+		return builder.toString();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+
+		for (int i = 0; i < pieces.length; i++) {
+			builder.append(pieces[i].getCharacter());
 		}
 
 		return builder.toString();
