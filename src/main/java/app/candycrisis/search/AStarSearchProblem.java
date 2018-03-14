@@ -103,8 +103,8 @@ public class AStarSearchProblem<S, A> {
                     continue;
                 }
 
-                int successorCost = current.getTransitionCost() + this.costFn.evaluate(successorState, action);
-                int successorHeuristic = this.heuristicFn.estimate(successorState);
+                double successorCost = current.getTransitionCost() + this.costFn.evaluate(successorState, action);
+                double successorHeuristic = this.heuristicFn.estimate(successorState);
 
                 NodeState<S, A> node = new NodeState<>(successorState, action, successorCost, successorHeuristic, current);
 

@@ -36,7 +36,7 @@ public class SuperSolver implements Player {
                         }
                     }
 
-                    return count;
+                    return count * 2.9;
                 });
 
         AStarSearchProblem<Game, Action>.SearchResult result = problem.search(state -> state.getState().isEndGame());

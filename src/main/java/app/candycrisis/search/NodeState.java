@@ -8,15 +8,15 @@ public class NodeState<S, A> implements Comparable<NodeState<S, A>> {
 
     private A action;
 
-    private int transitionCost;
+    private double transitionCost;
 
-    private int heuristicCost;
+    private double heuristicCost;
 
     public NodeState(S state) {
         this(state, null, 0, 0, null);
     }
 
-    public NodeState(S state, A action, int transitionCost, int heuristicCost, NodeState<S, A> parent) {
+    public NodeState(S state, A action, double transitionCost, double heuristicCost, NodeState<S, A> parent) {
         this.state = state;
         this.action = action;
         this.transitionCost = transitionCost;
@@ -24,23 +24,23 @@ public class NodeState<S, A> implements Comparable<NodeState<S, A>> {
         this.parent = parent;
     }
 
-    public void setTransitionCost(int transitionCost) {
+    public void setTransitionCost(double transitionCost) {
         this.transitionCost = transitionCost;
     }
 
-    public void setHeuristicCost(int heuristicCost) {
+    public void setHeuristicCost(double heuristicCost) {
         this.heuristicCost = heuristicCost;
     }
 
-    public int getTransitionCost() {
+    public double getTransitionCost() {
         return this.transitionCost;
     }
 
-    public int getHeuristicCost() {
+    public double getHeuristicCost() {
         return this.heuristicCost;
     }
 
-    public int getTotalCost() {
+    public double getTotalCost() {
         return this.transitionCost + this.heuristicCost;
     }
 
@@ -62,7 +62,7 @@ public class NodeState<S, A> implements Comparable<NodeState<S, A>> {
 
     @Override
     public int compareTo(NodeState<S, A> o) {
-        return Integer.compare(this.getTotalCost(), o.getTotalCost());
+        return this.getTotalCost() < o.getTotalCost() ? -1 : 1 ;
     }
 
 }
