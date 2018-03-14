@@ -1,6 +1,7 @@
 package app.candycrisis;
 
 import app.candycrisis.player.SuperSolver;
+import app.candycrisis.utils.Event;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -9,6 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RequirementsTest {
+
+    private static void performAction(Event<String> event) {
+        System.out.println(event.getSource());
+    }
 
     @Test
     public void noiveRequirementsTest() {
@@ -21,6 +26,7 @@ public class RequirementsTest {
         long start = System.currentTimeMillis();
 
         new CandyCrisis(games, new SuperSolver())
+            .onEnd(RequirementsTest::performAction)
             .start();
 
         assertTrue(System.currentTimeMillis() - start < 10000);
@@ -37,6 +43,7 @@ public class RequirementsTest {
         long start = System.currentTimeMillis();
 
         new CandyCrisis(games, new SuperSolver())
+            .onEnd(RequirementsTest::performAction)
             .start();
 
         assertTrue(System.currentTimeMillis() - start < 12000);
@@ -53,6 +60,7 @@ public class RequirementsTest {
         long start = System.currentTimeMillis();
 
         new CandyCrisis(games, new SuperSolver())
+            .onEnd(RequirementsTest::performAction)
             .start();
 
         assertTrue(System.currentTimeMillis() - start < 30000);
@@ -69,6 +77,7 @@ public class RequirementsTest {
         long start = System.currentTimeMillis();
 
         new CandyCrisis(games, new SuperSolver())
+            .onEnd(RequirementsTest::performAction)
             .start();
 
         assertTrue(System.currentTimeMillis() - start < 20000);

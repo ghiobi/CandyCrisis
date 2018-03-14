@@ -4,6 +4,8 @@ public class GameLogger {
 
     private long startTime;
 
+    private int steps = 0;
+
     private StringBuilder log;
 
     public GameLogger() {
@@ -25,7 +27,10 @@ public class GameLogger {
     public long end() {
         long duration = System.currentTimeMillis() - startTime;
 
-        this.log.append('\n').append(duration).append(" ms\n");
+        this.log.append('\n').append(duration).append("ms | ")
+            .append(this.steps).append(" steps\n");
+
+        this.steps = 0;
         return duration;
     }
 
@@ -36,6 +41,7 @@ public class GameLogger {
      */
     public void recordMove(char piece) {
         this.log.append(piece);
+        this.steps++;
     }
 
     /**

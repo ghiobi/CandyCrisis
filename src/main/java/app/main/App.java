@@ -8,9 +8,6 @@ import app.candycrisis.player.HumanPlayer;
 import app.candycrisis.player.HumanUIPlayer;
 import app.candycrisis.player.Player;
 import app.candycrisis.player.SuperSolver;
-import app.candycrisis.utils.Action;
-import app.candycrisis.utils.Event;
-
 import org.apache.commons.cli.*;
 
 public class App 
