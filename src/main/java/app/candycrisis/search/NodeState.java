@@ -2,7 +2,7 @@ package app.candycrisis.search;
 
 public class NodeState<S, A> implements Comparable<NodeState<S, A>> {
 
-    private NodeState parent;
+    private NodeState<S, A> parent;
 
     private S state;
 
@@ -52,7 +52,7 @@ public class NodeState<S, A> implements Comparable<NodeState<S, A>> {
         return this.state;
     }
 
-    public NodeState getParent() {
+    public NodeState<S, A> getParent() {
         return this.parent;
     }
 

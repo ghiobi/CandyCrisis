@@ -4,12 +4,6 @@ import app.candycrisis.Game;
 import app.candycrisis.IllegalPuzzleMoveException;
 import app.candycrisis.Piece;
 import app.candycrisis.search.AStarSearchProblem;
-import app.candycrisis.search.functions.ActionStateTransitionFunction;
-import app.candycrisis.search.functions.CostFunction;
-import app.candycrisis.search.functions.GoalFunction;
-import app.candycrisis.search.functions.HeuristicFunction;
-
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,19 +18,15 @@ public class SuperSolver implements Player {
     @Override
     public void init(Game init) {
 
-        AStarSearchProblem problem = new AStarSearchProblem<Game, Action>(init)
-                .useActionFunction(state -> {
-                    return validMovementsFor(state);
-                })
-                .useActionStateTransitionFunction((ActionStateTransitionFunction<Game, Action>) (state, action) -> {
-                    // Here we compute the state that results from doing an action A to the current state
-                    return applyActionToState(action, state);
-                })
-                .useCostFunction((CostFunction<Game, Action>) (game, action) -> {
-                    // Every movement has the same cost, 1
-                    return 1;
-                })
-                .useHeuristicFunction((HeuristicFunction<Game>) game -> {
+        AStarSearchProblem<Game, Action> problem = new AStarSearchProblem<Game, Action>(init)
+                // Get all available moves for a state
+                .useActionFunction(SuperSolver::actionsFor)
+                // Apply action to state
+                .useActionStateTransitionFunction(SuperSolver::apply)
+                // Cost of moving
+                .useCostFunction((game, action) -> 1)
+                // Heuristic estimation
+                .useHeuristicFunction(game -> {
                     int count = 0;
                     Piece[] pieces = game.getPieces();
 
@@ -49,15 +39,13 @@ public class SuperSolver implements Player {
                     return count;
                 });
 
-        AStarSearchProblem.SearchResult result = problem.search((GoalFunction<Game, Action>) state -> {
-            return state.getState().isEndGame();
-        });
+        AStarSearchProblem<Game, Action>.SearchResult result = problem.search(state -> state.getState().isEndGame());
 
         solution = result.solution();
         step = 0;
     }
 
-    private static Iterable<Action> validMovementsFor(Game state) {
+    private static Iterable<Action> actionsFor(Game state) {
         List<Action> actions = new LinkedList<>();
         int[] positions = state.getEmptyPiece().getNeighboringPositions();
 
@@ -82,7 +70,7 @@ public class SuperSolver implements Player {
         return actions;
     }
 
-    private static Game applyActionToState(Action action, Game board) {
+    private static Game apply(Game board, Action action) {
         Game successor = board.clone();
         Piece[] pieces = successor.getPieces();
         Piece move = null;

@@ -42,7 +42,7 @@ public class AStarSearchProblem<S, A> {
      * @param heuristicFn the function
      * @return AStarSearchProblem
      */
-    public AStarSearchProblem useHeuristicFunction(HeuristicFunction<S> heuristicFn) {
+    public AStarSearchProblem<S, A> useHeuristicFunction(HeuristicFunction<S> heuristicFn) {
         this.heuristicFn = heuristicFn;
         return this;
     }
@@ -53,7 +53,7 @@ public class AStarSearchProblem<S, A> {
      * @param costFn the function
      * @return AStarSearchProblem
      */
-    public AStarSearchProblem useCostFunction(CostFunction<S, A> costFn) {
+    public AStarSearchProblem<S, A> useCostFunction(CostFunction<S, A> costFn) {
         this.costFn = costFn;
         return this;
     }
@@ -64,7 +64,7 @@ public class AStarSearchProblem<S, A> {
      * @param actionFn the function
      * @return AStarSearchProblem
      */
-    public AStarSearchProblem useActionFunction(ActionFunction<S, A> actionFn) {
+    public AStarSearchProblem<S, A> useActionFunction(ActionFunction<S, A> actionFn) {
         this.actionFn = actionFn;
         return this;
     }
@@ -75,7 +75,7 @@ public class AStarSearchProblem<S, A> {
      * @param actionStateTransitionFn the function
      * @return AStarSearchProblem
      */
-    public AStarSearchProblem useActionStateTransitionFunction(ActionStateTransitionFunction<S, A> actionStateTransitionFn) {
+    public AStarSearchProblem<S, A> useActionStateTransitionFunction(ActionStateTransitionFunction<S, A> actionStateTransitionFn) {
         this.actionStateTransitionFn = actionStateTransitionFn;
         return this;
     }
