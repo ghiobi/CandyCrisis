@@ -36,7 +36,7 @@ public class GameLoggerTest {
 		String log = logger.toString();
 
 		assertEquals(log.substring(0, log.indexOf('\n')), "ACE");
-		assertTrue(Pattern.matches("\\d+ ms", log.substring(log.indexOf('\n') + 1, log.lastIndexOf('\n'))));
+		assertTrue(Pattern.matches("\\d+ms.+", log.substring(log.indexOf('\n') + 1, log.lastIndexOf('\n'))));
 	}
 
 }
