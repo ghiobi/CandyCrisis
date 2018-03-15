@@ -8,16 +8,13 @@ import app.candycrisis.player.HumanPlayer;
 import app.candycrisis.player.HumanUIPlayer;
 import app.candycrisis.player.Player;
 import app.candycrisis.player.SuperSolver;
-import app.candycrisis.utils.Action;
-import app.candycrisis.utils.Event;
-
 import org.apache.commons.cli.*;
 
 public class App 
 {
     public static void main( String[] args ) throws Exception
     {
-       /* CommandLineParser parser = new DefaultParser();
+        CommandLineParser parser = new DefaultParser();
 
         Options options = (new Options())
                 .addOption("b", "board", true, "The board path file containing games.")
@@ -36,17 +33,17 @@ public class App
         if (!line.hasOption("board")) {
             System.out.println("--board flag is required. Ex --board=boards.txt. --help for help.");
             System.exit(0);
-        }*/
+        }
 
-        Reader reader =  new InputStreamReader(new FileInputStream("boards.txt"), "UTF-8");
+        Reader reader =  new InputStreamReader(new FileInputStream(line.getOptionValue("board")), "UTF-8");
 
     	new CandyCrisis((
                 new GameBuilder(reader)).build(),
-                new SuperSolver())
+                getPlayer(line.hasOption("player") ? line.getOptionValue("player").charAt(0) : 'c'))
             .onEnd((event) -> {
                 PrintWriter writer = null;
                 try {
-                    String filename = /*line.hasOption("output") ? line.getOptionValue("output") : */"output.txt";
+                    String filename = line.hasOption("output") ? line.getOptionValue("output") : "output.txt";
                     writer = new PrintWriter(new FileWriter(filename));
 
                     writer.println(event.getSource().replaceAll("\n", "\r\n"));
@@ -62,7 +59,7 @@ public class App
             .start();
     }
 
-   /* public static Player getPlayer(char option) {
+    public static Player getPlayer(char option) {
         switch (option) {
             case 'i':
                 return new HumanUIPlayer();
@@ -71,6 +68,6 @@ public class App
             default:
                 return new HumanPlayer();
         }
-    }*/
+    }
 
 }

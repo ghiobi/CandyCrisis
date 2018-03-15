@@ -31,52 +31,55 @@ public class SuperSolver implements Player {
                     int count = 0;
                     Piece[] pieces = game.getPieces();
 
-					int[] positions = game.getEmptyPiece().getNeighboringPositions();
+                    int[] positions = game.getEmptyPiece().getNeighboringPositions();
 
-					for (int i = 0; i < positions.length; i++) {
-						if (positions[i] != Piece.OUT_OF_BOUNDS_POSITION) {
-						    count+=i;
-						}
-					}
+                    for (int i = 0; i < positions.length; i++) {
+                        if (positions[i] != Piece.OUT_OF_BOUNDS_POSITION) {
+                            count += i;
+                        }
+                    }
 
-					for(int i=0; i<15; i++){
-						if((pieces[i].getCharacter() == EmptyPiece.EMPTY_PIECE_CHARACTER)){
-							if(i<5||i>9) {
-								count++;
-							}
-						}
-					}
+                    for (int i = 0; i < 15; i++) {
+                        if ((pieces[i].getCharacter() == EmptyPiece.EMPTY_PIECE_CHARACTER)) {
+                            if (i < 5 || i > 9) {
+                                count++;
+                            }
+                        }
+                    }
 
-					for (int i = 0; i < 5; i++) {
+                    for (int i = 0; i < 5; i++) {
+                        if (pieces[i].getCharacter() != pieces[i + 10].getCharacter()) {
+                            if ((pieces[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) ||
+                                    (pieces[i + 10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)) {
+                                count += 10;
+                                count += i;
+                            }
+                        }
 
-						if (pieces[i].getCharacter() != pieces[i + 10].getCharacter()) {
-							if((pieces[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) || (pieces[i+10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)){
-								count+=10;
-							    count+=i;
-							}
-						}
+                        if ((pieces[i].getCharacter() != pieces[i + 10].getCharacter()) &&
+                                (pieces[i].getCharacter() != pieces[i + 5].getCharacter())) {
 
-						if ((pieces[i].getCharacter() != pieces[i + 10].getCharacter())&&(pieces[i].getCharacter() != pieces[i + 5].getCharacter())) {
-							if((pieces[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) || (pieces[i+5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)){
-								count++;
-							}
-						}
+                            if ((pieces[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) ||
+                                    (pieces[i + 5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)) {
+                                count++;
+                            }
+                        }
 
-						if ((pieces[i].getCharacter() != pieces[i + 10].getCharacter())&&(pieces[i+5].getCharacter() != pieces[i + 10].getCharacter())) {
-							if((pieces[i+5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) || (pieces[i+10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)){
-								count++;
-							}
-						}
+                        if ((pieces[i].getCharacter() != pieces[i + 10].getCharacter()) &&
+                                (pieces[i + 5].getCharacter() != pieces[i + 10].getCharacter())) {
+                            if ((pieces[i + 5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) ||
+                                    (pieces[i + 10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)) {
+                                count++;
+                            }
+                        }
+                    }
 
-					}
-
-					return count;
+					return count / 3;
                 });
 
         AStarSearchProblem<Game, Action>.SearchResult result = problem.search(state -> state.getState().isEndGame());
 
         solution = result.solution();
-		System.out.println(result.iterations());
         step = 0;
     }
 
