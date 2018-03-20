@@ -16,71 +16,39 @@ public class RequirementsTest {
     }
 
     @Test
-    public void noiveRequirementsTest() {
-        List<Game> games = new LinkedList<>();
-
-        for (int i = 0; i < 50; i++) {
-            games.add(GameGenerator.generate(0));
-        }
-
-        long start = System.currentTimeMillis();
-
-        new CandyCrisis(games, new SuperSolver())
-            .onEnd(RequirementsTest::performAction)
-            .start();
-
-        assertTrue(System.currentTimeMillis() - start < 10000);
+    public void noviceRequirementsTest() {
+        assertGameRuntime(500, 0, 100000);
     }
 
     @Test
     public void apprenticeRequirementsTest() {
-        List<Game> games = new LinkedList<>();
-
-        for (int i = 0; i < 50; i++) {
-            games.add(GameGenerator.generate(1));
-        }
-
-        long start = System.currentTimeMillis();
-
-        new CandyCrisis(games, new SuperSolver())
-            .onEnd(RequirementsTest::performAction)
-            .start();
-
-        assertTrue(System.currentTimeMillis() - start < 12000);
+        assertGameRuntime(500, 1, 120000);
     }
 
     @Test
     public void expertRequirementsTest() {
-        List<Game> games = new LinkedList<>();
-
-        for (int i = 0; i < 30; i++) {
-            games.add(GameGenerator.generate(2));
-        }
-
-        long start = System.currentTimeMillis();
-
-        new CandyCrisis(games, new SuperSolver())
-            .onEnd(RequirementsTest::performAction)
-            .start();
-
-        assertTrue(System.currentTimeMillis() - start < 30000);
+        assertGameRuntime(300, 2, 300000);
     }
 
     @Test
     public void masterRequirementsTest() {
+        assertGameRuntime(100, 3, 200000);
+    }
+
+    protected void assertGameRuntime(int runs, int level,  int time) {
         List<Game> games = new LinkedList<>();
 
-        for (int i = 0; i < 10; i++) {
-            games.add(GameGenerator.generate(3));
+        for (int i = 0; i < runs; i++) {
+            games.add(GameGenerator.generate(level));
         }
 
         long start = System.currentTimeMillis();
 
         new CandyCrisis(games, new SuperSolver())
-            .onEnd(RequirementsTest::performAction)
-            .start();
+                .onEnd(RequirementsTest::performAction)
+                .start();
 
-        assertTrue(System.currentTimeMillis() - start < 20000);
+        assertTrue(System.currentTimeMillis() - start < time);
     }
 
 }

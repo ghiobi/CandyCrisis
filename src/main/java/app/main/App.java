@@ -14,6 +14,7 @@ public class App
 {
     public static void main( String[] args ) throws Exception
     {
+        long start = System.currentTimeMillis();
         CommandLineParser parser = new DefaultParser();
 
         Options options = (new Options())
@@ -55,6 +56,8 @@ public class App
                         writer.close();
                     }
                 }
+
+                System.out.print("EXECUTION TIME: " + (System.currentTimeMillis() - start) + "ms");
             })
             .start();
     }

@@ -20,6 +20,8 @@ public class AStarSearchProblem<S, A> {
 
     private PriorityQueue<NodeState<S, A>> openQueue;
 
+    private HashMap<String, NodeState<S, A>> openMap;
+
     private HashMap<String, NodeState<S, A>> closedMap;
 
     private int iterations = 0;
@@ -32,8 +34,11 @@ public class AStarSearchProblem<S, A> {
     public AStarSearchProblem(S initalState) {
         this.openQueue = new PriorityQueue<>(100000);
         this.closedMap = new HashMap<>(100000);
+        this.openMap = new HashMap<>(100000);
 
-        this.openQueue.add(new NodeState<>(initalState));
+        NodeState<S, A> node = new NodeState<>(initalState);
+        this.openQueue.add(node);
+        this.openMap.put(node.getState().toString(), node);
     }
 
     /**
@@ -88,9 +93,16 @@ public class AStarSearchProblem<S, A> {
      */
     public SearchResult search(GoalFunction<S, A> goal) {
         NodeState<S, A> current = null;
+        NodeState<S, A> successor = null;
 
         while (!this.openQueue.isEmpty()) {
             current = this.openQueue.poll();
+
+            while (!this.openMap.containsKey(current.getState().toString())) {
+                current = this.openQueue.poll();
+            }
+
+            this.openMap.remove(current.getState().toString());
 
             if (goal.reached(current)) {
                 break;
@@ -98,10 +110,6 @@ public class AStarSearchProblem<S, A> {
 
             for (A action: this.actionFn.actionsFor(current.getState())) {
                 S successorState = this.actionStateTransitionFn.apply(current.getState(), action);
-
-                if (this.closedMap.containsKey(successorState.toString())) {
-                    continue;
-                }
 
                 double successorCost = current.getTransitionCost() + this.costFn.evaluate(successorState, action);
                 double successorHeuristic = this.heuristicFn.estimate(successorState);
@@ -112,7 +120,20 @@ public class AStarSearchProblem<S, A> {
                     return new SearchResult(node, iterations);
                 }
 
+                successor = this.openMap.get(node.getState().toString());
+                if (successor != null &&
+                        successor.getTotalCost() < node.getTotalCost()) {
+                    continue;
+                }
+
+                successor = this.closedMap.get(node.getState().toString());
+                if (successor != null &&
+                        successor.getTotalCost() < node.getTotalCost()) {
+                    continue;
+                }
+
                 this.openQueue.add(node);
+                this.openMap.put(node.getState().toString(), node);
             }
 
             iterations++;

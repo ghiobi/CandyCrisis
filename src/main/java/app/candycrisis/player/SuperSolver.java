@@ -5,6 +5,7 @@ import app.candycrisis.Game;
 import app.candycrisis.IllegalPuzzleMoveException;
 import app.candycrisis.Piece;
 import app.candycrisis.search.AStarSearchProblem;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,61 +22,13 @@ public class SuperSolver implements Player {
 
         AStarSearchProblem<Game, Action> problem = new AStarSearchProblem<Game, Action>(init)
                 // Get all available moves for a state
-                .useActionFunction(SuperSolver::actionsFor)
+                .useActionFunction(SuperSolver::getAvailableActions)
                 // Apply action to state
-                .useActionStateTransitionFunction(SuperSolver::apply)
+                .useActionStateTransitionFunction(SuperSolver::applyActionToState)
                 // Cost of moving
                 .useCostFunction((game, action) -> 1)
                 // Heuristic estimation
-                .useHeuristicFunction(game -> {
-                    int count = 0;
-                    Piece[] pieces = game.getPieces();
-
-                    int[] positions = game.getEmptyPiece().getNeighboringPositions();
-
-                    for (int i = 0; i < positions.length; i++) {
-                        if (positions[i] != Piece.OUT_OF_BOUNDS_POSITION) {
-                            count += i;
-                        }
-                    }
-
-                    for (int i = 0; i < 15; i++) {
-                        if ((pieces[i].getCharacter() == EmptyPiece.EMPTY_PIECE_CHARACTER)) {
-                            if (i < 5 || i > 9) {
-                                count++;
-                            }
-                        }
-                    }
-
-                    for (int i = 0; i < 5; i++) {
-                        if (pieces[i].getCharacter() != pieces[i + 10].getCharacter()) {
-                            if ((pieces[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) ||
-                                    (pieces[i + 10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)) {
-                                count += 10;
-                                count += i;
-                            }
-                        }
-
-                        if ((pieces[i].getCharacter() != pieces[i + 10].getCharacter()) &&
-                                (pieces[i].getCharacter() != pieces[i + 5].getCharacter())) {
-
-                            if ((pieces[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) ||
-                                    (pieces[i + 5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)) {
-                                count++;
-                            }
-                        }
-
-                        if ((pieces[i].getCharacter() != pieces[i + 10].getCharacter()) &&
-                                (pieces[i + 5].getCharacter() != pieces[i + 10].getCharacter())) {
-                            if ((pieces[i + 5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) ||
-                                    (pieces[i + 10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)) {
-                                count++;
-                            }
-                        }
-                    }
-
-					return count / 3;
-                });
+                .useHeuristicFunction(SuperSolver::estimateState);
 
         AStarSearchProblem<Game, Action>.SearchResult result = problem.search(state -> state.getState().isEndGame());
 
@@ -83,7 +36,7 @@ public class SuperSolver implements Player {
         step = 0;
     }
 
-    private static Iterable<Action> actionsFor(Game state) {
+    private static Iterable<Action> getAvailableActions(Game state) {
         List<Action> actions = new LinkedList<>();
         int[] positions = state.getEmptyPiece().getNeighboringPositions();
 
@@ -108,7 +61,7 @@ public class SuperSolver implements Player {
         return actions;
     }
 
-    private static Game apply(Game board, Action action) {
+    private static Game applyActionToState(Game board, Action action) {
         Game successor = board.clone();
         Piece[] pieces = successor.getPieces();
         Piece move = null;
@@ -132,6 +85,56 @@ public class SuperSolver implements Player {
             e.printStackTrace();
         }
         return successor;
+    }
+
+    private static double estimateState(Game game) {
+        double count = 0;
+        Piece[] pieces = game.getPieces();
+
+        int[] positions = game.getEmptyPiece().getNeighboringPositions();
+
+        for (int i = 0; i < positions.length; i++) {
+            if (positions[i] != Piece.OUT_OF_BOUNDS_POSITION) {
+                count += i;
+            }
+        }
+
+        for (int i = 0; i < 15; i++) {
+            if ((pieces[i].getCharacter() == EmptyPiece.EMPTY_PIECE_CHARACTER)) {
+                if (i < 5 || i > 9) {
+                    count++;
+                }
+            }
+        }
+
+        for (int i = 0; i < 5; i++) {
+            if (pieces[i].getCharacter() != pieces[i + 10].getCharacter()) {
+                if ((pieces[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) ||
+                        (pieces[i + 10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)) {
+                    count += 10;
+                    count += i;
+                }
+            }
+
+            if ((pieces[i].getCharacter() != pieces[i + 10].getCharacter()) &&
+                    (pieces[i].getCharacter() != pieces[i + 5].getCharacter())) {
+
+                if ((pieces[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) ||
+                        (pieces[i + 5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)) {
+                    count++;
+                }
+            }
+
+            if ((pieces[i].getCharacter() != pieces[i + 10].getCharacter()) &&
+                    (pieces[i + 5].getCharacter() != pieces[i + 10].getCharacter())) {
+                if ((pieces[i + 5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) ||
+                        (pieces[i + 10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)) {
+                    count++;
+                }
+            }
+        }
+
+        return count / 12.3;
     }
 
     @Override

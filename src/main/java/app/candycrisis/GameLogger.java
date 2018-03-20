@@ -6,6 +6,10 @@ public class GameLogger {
 
     private int steps = 0;
 
+    private int total = 0;
+
+    private int totalSteps = 0;
+
     private StringBuilder log;
 
     public GameLogger() {
@@ -30,7 +34,9 @@ public class GameLogger {
         this.log.append('\n').append(duration).append("ms | ")
             .append(this.steps).append(" steps\n");
 
+        this.totalSteps += this.steps;
         this.steps = 0;
+        total += duration;
         return duration;
     }
 
@@ -50,7 +56,8 @@ public class GameLogger {
      * @return string log.
      */
     public String toString() {
-        return this.log.toString();
+        return this.log.append("\nTOTAL: ")
+            .append(this.totalSteps).append(" steps").toString();
     }
 
 }
