@@ -3,15 +3,19 @@ package app.candycrisis.player;
 import app.candycrisis.Game;
 import app.candycrisis.IllegalPuzzleMoveException;
 import app.candycrisis.Piece;
+import app.candycrisis.player.heuristic.LaurendyHeuristic;
+import app.candycrisis.player.heuristic.ZiadHeuristic;
 import app.candycrisis.search.AStarSearchProblem;
 import app.candycrisis.search.functions.HeuristicFunction;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 public class AutomatedPlayer implements Player {
 
-    enum Action { UP, RIGHT, LEFT, DOWN };
+    public enum Action { UP, RIGHT, LEFT, DOWN };
 
     private List<Action> solution;
 
@@ -21,6 +25,24 @@ public class AutomatedPlayer implements Player {
 
     public AutomatedPlayer(HeuristicFunction<Game> heuristicFunction) {
         this.heuristicFunction = heuristicFunction;
+    }
+
+    public AutomatedPlayer() { }
+
+    public HeuristicFunction<Game> getHeuristicFunction(Game game) {
+        HashMap<Character, Integer> map = new HashMap<>(7);
+
+        for (Piece piece: game.getPieces()) {
+            if (!map.containsKey(piece.getCharacter())) {
+                map.put(piece.getCharacter(), 1);
+            }
+        }
+
+        if (map.keySet().size() == 7) {
+            return LaurendyHeuristic::estimate;
+        }
+
+        return ZiadHeuristic::estimate;
     }
 
     @Override
@@ -34,7 +56,7 @@ public class AutomatedPlayer implements Player {
                 // Cost of moving
                 .useCostFunction((game, action) -> 1)
                 // Heuristic estimation
-                .useHeuristicFunction(this.heuristicFunction);
+                .useHeuristicFunction(this.heuristicFunction == null ? getHeuristicFunction(init) : this.heuristicFunction);
 
         AStarSearchProblem<Game, Action>.SearchResult result = problem.search(state -> state.getState().isEndGame());
 
@@ -42,9 +64,13 @@ public class AutomatedPlayer implements Player {
         step = 0;
     }
 
-    private static Iterable<Action> getAvailableActions(Game state) {
+    private static Iterable<Action> getAvailableActions(Game game) {
+        return getAvailableActions(game.getEmptyPiece());
+    }
+
+    public static Iterable<Action> getAvailableActions(Piece piece) {
         List<Action> actions = new LinkedList<>();
-        int[] positions = state.getEmptyPiece().getNeighboringPositions();
+        int[] positions = piece.getNeighboringPositions();
 
         for (int i = 0; i < positions.length; i++) {
             if (positions[i] != Piece.OUT_OF_BOUNDS_POSITION) {
