@@ -12,7 +12,7 @@ public class SuperSolverTest {
     @Test
     public void test() {
         Player player = new SuperSolver();
-        Game game = new GameBuilder(new StringReader("r e b w r b b b r r r b r b w")).build().get(0);
+        Game game = GameBuilder.build("r e b w r b b b r r r b r b w");
 
         player.init(game);
     }

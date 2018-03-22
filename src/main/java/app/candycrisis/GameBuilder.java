@@ -8,18 +8,12 @@ import java.util.List;
 
 public class GameBuilder {
 	
-	private Reader reader;
-
-	public GameBuilder(Reader reader) {
-		this.reader = reader;
-	}
-	
 	/**
 	 * Builds games from the provided reader.
 	 * 
 	 * @return an array of candy crisis games
 	 */
-	public List<Game> build() {
+	public static List<Game> build(Reader reader) {
 		BufferedReader in = null;
 		
 		List<Game> games = new LinkedList<Game>();
@@ -32,7 +26,7 @@ public class GameBuilder {
 			while(line != null) {
 				char[] strings = String.join("", line.split(" ")).toCharArray();
 
-				games.add(GameBuilder.buildGameFromChars(strings));
+				games.add(GameBuilder.build(strings));
 				line = in.readLine();
 			}
 			
@@ -45,12 +39,12 @@ public class GameBuilder {
 	}
 	
 	/**
-	 * Builds game from a one line string.
+	 * Builds game from a an array of characters.
 	 * 
 	 * @param strings
 	 * @return the candy crisis game
 	 */
-	public static Game buildGameFromChars(char[] strings) {
+	public static Game build(char[] strings) {
 		Piece[] pieces = new Piece[15];
 		
 		for (int i = 0; i < pieces.length; i++) {
@@ -65,4 +59,15 @@ public class GameBuilder {
 		
 		return new Game(pieces);
 	}
+
+	/**
+	 * Builds game from a one line string.
+	 *
+	 * @param string
+	 * @return the candy crisis game
+	 */
+	public static Game build(String string) {
+		return GameBuilder.build(String.join("", string.split(" ")).toCharArray());
+	}
+
 }

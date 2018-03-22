@@ -23,7 +23,7 @@ public class GameGenerator {
         List<String> list = Arrays.asList(boards[level].split(" "));
         Collections.shuffle(list);
 
-        return GameBuilder.buildGameFromChars(String.join("", list).toCharArray());
+        return GameBuilder.build(String.join("", list).toCharArray());
     }
 
 }

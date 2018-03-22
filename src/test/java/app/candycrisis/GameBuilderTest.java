@@ -13,9 +13,7 @@ public class GameBuilderTest {
 	public void testNumberOfGames() {
 		String file = "e r r r r r b w b b w y b r y\n"
 				+ "e g g r r r b w b b w y b b y";
-		GameBuilder builder = new GameBuilder(new StringReader(file));
-		
-		List<Game> games = builder.build();
+		List<Game> games = GameBuilder.build(new StringReader(file));
 		
 		char[][] characters = {{'e', 'r', 'r', 'r', 'r', 'r', 'b', 'w', 'b', 'b', 'w', 'y', 'b', 'r', 'y'}, 
 				{'e', 'g', 'g', 'r', 'r', 'r', 'b', 'w', 'b', 'b', 'w', 'y', 'b', 'b', 'y'}};

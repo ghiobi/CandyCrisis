@@ -38,8 +38,8 @@ public class App
 
         Reader reader =  new InputStreamReader(new FileInputStream(line.getOptionValue("board")), "UTF-8");
 
-    	new CandyCrisis((
-                new GameBuilder(reader)).build(),
+    	new CandyCrisis(
+                GameBuilder.build(reader),
                 getPlayer(line.hasOption("player") ? line.getOptionValue("player").charAt(0) : 'c'))
             .onEnd((event) -> {
                 PrintWriter writer = null;
