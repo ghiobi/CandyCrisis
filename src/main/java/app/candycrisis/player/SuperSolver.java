@@ -134,7 +134,7 @@ public class SuperSolver implements Player {
             }
         }
 
-        return count / 12.3;
+        return count / 8.6;
     }
 
     @Override

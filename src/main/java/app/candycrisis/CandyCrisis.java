@@ -33,9 +33,7 @@ public class CandyCrisis {
 			player.init(game);
 			
 			while (!game.isEndGame()) {
-
-                System.out.println(game.toGameString());
-				System.out.println();
+				printGame(game);
 
 				Piece move = player.getMove(game);
 				char id = move.getId();
@@ -44,10 +42,11 @@ public class CandyCrisis {
 					game.move(move);
 					logger.recordMove(id);
 				} catch (IllegalPuzzleMoveException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
+
+			printGame(game);
 
 			player.end();
 			logger.end();
@@ -67,6 +66,11 @@ public class CandyCrisis {
 		System.out.println("^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^");
 		System.out.println("~~~~~A NEW CANDY CRISIS GAME STARTED~~~~~");
 		System.out.println("^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^+^\n");
+	}
+
+	private void printGame(Game game) {
+		System.out.println(game.toGameString());
+		System.out.println();
 	}
 
 }
