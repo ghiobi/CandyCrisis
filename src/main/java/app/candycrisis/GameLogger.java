@@ -6,7 +6,7 @@ public class GameLogger {
 
     private int steps = 0;
 
-    private int total = 0;
+    private int totalTime = 0;
 
     private int totalSteps = 0;
 
@@ -31,12 +31,12 @@ public class GameLogger {
     public long end() {
         long duration = System.currentTimeMillis() - startTime;
 
-        this.log.append('\n').append(duration).append("ms | ")
-            .append(this.steps).append(" steps\n");
-
+        this.log.append('\n').append(duration).append("ms\n");
         this.totalSteps += this.steps;
+
         this.steps = 0;
-        total += duration;
+        this.totalTime += duration;
+
         return duration;
     }
 
@@ -57,7 +57,8 @@ public class GameLogger {
      */
     public String toString() {
         return this.log.append("\nTOTAL: ")
-            .append(this.totalSteps).append(" steps").toString();
+            .append(this.totalSteps).append(" steps | ")
+                .append(this.totalTime).append("ms").toString();
     }
 
 }

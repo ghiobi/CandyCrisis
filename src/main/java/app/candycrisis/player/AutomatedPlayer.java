@@ -134,7 +134,7 @@ public class AutomatedPlayer implements Player {
             }
         }
 
-        return count / 8.6;
+        return count / 7.4;
     }
 
     @Override
