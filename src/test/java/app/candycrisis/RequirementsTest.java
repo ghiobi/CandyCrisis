@@ -1,6 +1,7 @@
 package app.candycrisis;
 
 import app.candycrisis.player.AutomatedPlayer;
+import app.candycrisis.player.heuristic.ZiadHeuristic;
 import app.candycrisis.utils.Event;
 import org.junit.Test;
 
@@ -44,7 +45,7 @@ public class RequirementsTest {
 
         long start = System.currentTimeMillis();
 
-        new CandyCrisis(games, new AutomatedPlayer())
+        new CandyCrisis(games, new AutomatedPlayer(ZiadHeuristic::estimate))
                 .onEnd(RequirementsTest::performAction)
                 .start();
 

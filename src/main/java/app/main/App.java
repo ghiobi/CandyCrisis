@@ -8,6 +8,7 @@ import app.candycrisis.player.HumanPlayer;
 import app.candycrisis.player.HumanUIPlayer;
 import app.candycrisis.player.Player;
 import app.candycrisis.player.AutomatedPlayer;
+import app.candycrisis.player.heuristic.ZiadHeuristic;
 import org.apache.commons.cli.*;
 
 public class App 
@@ -64,7 +65,7 @@ public class App
             case 'i':
                 return new HumanUIPlayer();
             case 'a':
-                return new AutomatedPlayer();
+                return new AutomatedPlayer(ZiadHeuristic::estimate);
             default:
                 return new HumanPlayer();
         }

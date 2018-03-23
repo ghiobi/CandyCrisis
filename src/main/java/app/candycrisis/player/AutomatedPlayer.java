@@ -1,10 +1,10 @@
 package app.candycrisis.player;
 
-import app.candycrisis.EmptyPiece;
 import app.candycrisis.Game;
 import app.candycrisis.IllegalPuzzleMoveException;
 import app.candycrisis.Piece;
 import app.candycrisis.search.AStarSearchProblem;
+import app.candycrisis.search.functions.HeuristicFunction;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +17,12 @@ public class AutomatedPlayer implements Player {
 
     private int step;
 
+    private HeuristicFunction<Game> heuristicFunction;
+
+    public AutomatedPlayer(HeuristicFunction<Game> heuristicFunction) {
+        this.heuristicFunction = heuristicFunction;
+    }
+
     @Override
     public void init(Game init) {
 
@@ -28,7 +34,7 @@ public class AutomatedPlayer implements Player {
                 // Cost of moving
                 .useCostFunction((game, action) -> 1)
                 // Heuristic estimation
-                .useHeuristicFunction(AutomatedPlayer::estimateState);
+                .useHeuristicFunction(this.heuristicFunction);
 
         AStarSearchProblem<Game, Action>.SearchResult result = problem.search(state -> state.getState().isEndGame());
 
@@ -85,56 +91,6 @@ public class AutomatedPlayer implements Player {
             e.printStackTrace();
         }
         return successor;
-    }
-
-    private static double estimateState(Game game) {
-        double count = 0;
-        Piece[] pieces = game.getPieces();
-
-        int[] positions = game.getEmptyPiece().getNeighboringPositions();
-
-        for (int i = 0; i < positions.length; i++) {
-            if (positions[i] != Piece.OUT_OF_BOUNDS_POSITION) {
-                count += i;
-            }
-        }
-
-        for (int i = 0; i < 15; i++) {
-            if ((pieces[i].getCharacter() == EmptyPiece.EMPTY_PIECE_CHARACTER)) {
-                if (i < 5 || i > 9) {
-                    count++;
-                }
-            }
-        }
-
-        for (int i = 0; i < 5; i++) {
-            if (pieces[i].getCharacter() != pieces[i + 10].getCharacter()) {
-                if ((pieces[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) ||
-                        (pieces[i + 10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)) {
-                    count += 10;
-                    count += i;
-                }
-            }
-
-            if ((pieces[i].getCharacter() != pieces[i + 10].getCharacter()) &&
-                    (pieces[i].getCharacter() != pieces[i + 5].getCharacter())) {
-
-                if ((pieces[i].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) ||
-                        (pieces[i + 5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)) {
-                    count++;
-                }
-            }
-
-            if ((pieces[i].getCharacter() != pieces[i + 10].getCharacter()) &&
-                    (pieces[i + 5].getCharacter() != pieces[i + 10].getCharacter())) {
-                if ((pieces[i + 5].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER) ||
-                        (pieces[i + 10].getCharacter() != EmptyPiece.EMPTY_PIECE_CHARACTER)) {
-                    count++;
-                }
-            }
-        }
-
-        return count / 7.4;
     }
 
     @Override
