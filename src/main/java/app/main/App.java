@@ -7,7 +7,7 @@ import app.candycrisis.GameBuilder;
 import app.candycrisis.player.HumanPlayer;
 import app.candycrisis.player.HumanUIPlayer;
 import app.candycrisis.player.Player;
-import app.candycrisis.player.SuperSolver;
+import app.candycrisis.player.AutomatedPlayer;
 import org.apache.commons.cli.*;
 
 public class App 
@@ -67,7 +67,7 @@ public class App
             case 'i':
                 return new HumanUIPlayer();
             case 'a':
-                return new SuperSolver();
+                return new AutomatedPlayer();
             default:
                 return new HumanPlayer();
         }

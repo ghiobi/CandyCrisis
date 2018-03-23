@@ -9,7 +9,7 @@ import app.candycrisis.search.AStarSearchProblem;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SuperSolver implements Player {
+public class AutomatedPlayer implements Player {
 
     enum Action { UP, RIGHT, LEFT, DOWN };
 
@@ -22,13 +22,13 @@ public class SuperSolver implements Player {
 
         AStarSearchProblem<Game, Action> problem = new AStarSearchProblem<Game, Action>(init)
                 // Get all available moves for a state
-                .useActionFunction(SuperSolver::getAvailableActions)
+                .useActionFunction(AutomatedPlayer::getAvailableActions)
                 // Apply action to state
-                .useActionStateTransitionFunction(SuperSolver::applyActionToState)
+                .useActionStateTransitionFunction(AutomatedPlayer::applyActionToState)
                 // Cost of moving
                 .useCostFunction((game, action) -> 1)
                 // Heuristic estimation
-                .useHeuristicFunction(SuperSolver::estimateState);
+                .useHeuristicFunction(AutomatedPlayer::estimateState);
 
         AStarSearchProblem<Game, Action>.SearchResult result = problem.search(state -> state.getState().isEndGame());
 

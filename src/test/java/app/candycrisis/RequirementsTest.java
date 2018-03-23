@@ -1,6 +1,6 @@
 package app.candycrisis;
 
-import app.candycrisis.player.SuperSolver;
+import app.candycrisis.player.AutomatedPlayer;
 import app.candycrisis.utils.Event;
 import org.junit.Test;
 
@@ -44,7 +44,7 @@ public class RequirementsTest {
 
         long start = System.currentTimeMillis();
 
-        new CandyCrisis(games, new SuperSolver())
+        new CandyCrisis(games, new AutomatedPlayer())
                 .onEnd(RequirementsTest::performAction)
                 .start();
 
