@@ -1,55 +1,105 @@
 package app.candycrisis;
 
 import app.candycrisis.player.AutomatedPlayer;
+import app.candycrisis.player.heuristic.LaurendyHeuristic;
 import app.candycrisis.player.heuristic.ZiadHeuristic;
+import app.candycrisis.search.functions.HeuristicFunction;
 import app.candycrisis.utils.Event;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RequirementsTest {
+
+    public static Object[] games = new Object[4];
+
+    HashMap<String, Integer> options = new HashMap<String, Integer>(){{
+        put("0-r", 500);
+        put("0-t", 100000);
+
+        put("1-r", 500);
+        put("1-t", 120000);
+
+        put("2-r", 30);
+        put("2-t", 30000);
+
+        put("3-r", 100);
+        put("3-t", 2000000);
+    }};
 
     private static void performAction(Event<String> event) {
         System.out.println(event.getSource());
     }
 
     @Test
-    public void noviceRequirementsTest() {
-        assertGameRuntime(500, 0, 100000);
+    public void noviceRequirementsTestWithZiadHeuristic() {
+        assertGameRuntime(0, ZiadHeuristic::estimate);
     }
 
     @Test
-    public void apprenticeRequirementsTest() {
-        assertGameRuntime(500, 1, 120000);
+    public void noviceRequirementsTestWithLaurendyHeuristic() {
+        assertGameRuntime(0, ZiadHeuristic::estimate);
     }
 
     @Test
-    public void expertRequirementsTest() {
-        assertGameRuntime(300, 2, 300000);
+    public void apprenticeRequirementsTestWithZiadHeuristic() {
+        assertGameRuntime(1, ZiadHeuristic::estimate);
     }
 
     @Test
-    public void masterRequirementsTest() {
-        assertGameRuntime(100, 3, 200000);
+    public void apprenticeRequirementsTestWithLaurendyHeuristic() {
+        assertGameRuntime(1, LaurendyHeuristic::estimate);
     }
 
-    protected void assertGameRuntime(int runs, int level,  int time) {
-        List<Game> games = new LinkedList<>();
+    @Test
+    public void expertRequirementsTestWithZiadHeuristic() {
+        assertGameRuntime(2, ZiadHeuristic::estimate);
+    }
 
-        for (int i = 0; i < runs; i++) {
-            games.add(GameGenerator.generate(level));
+    @Test
+    public void expertRequirementsTestWithLaurendyHeuristic() {
+        assertGameRuntime(2, LaurendyHeuristic::estimate);
+    }
+
+    @Test
+    public void masterRequirementsTestWithZiadHeuristic() {
+        assertGameRuntime(3, ZiadHeuristic::estimate);
+    }
+
+    @Test
+    public void masterRequirementsTestWithLaurendyHeuristic() {
+        assertGameRuntime(3, LaurendyHeuristic::estimate);
+    }
+
+    protected void assertGameRuntime(int level, HeuristicFunction<Game> heuristicFunction) {
+        List<Game> games = (List<Game>) this.games[level];
+
+        if (games == null) {
+            games = new LinkedList<>();
+
+            for (int i = 0; i < options.get(level + "-r"); i++) {
+                games.add(GameGenerator.generate(level));
+            }
+
+            this.games[level] = games;
         }
+
+        games = games.stream().map(Game::clone).collect(Collectors.toList());
 
         long start = System.currentTimeMillis();
 
-        new CandyCrisis(games, new AutomatedPlayer(ZiadHeuristic::estimate))
+        new CandyCrisis(games, new AutomatedPlayer(heuristicFunction))
                 .onEnd(RequirementsTest::performAction)
                 .start();
 
-        assertTrue(System.currentTimeMillis() - start < time);
+        assertTrue(System.currentTimeMillis() - start < options.get(level + "-t"));
     }
 
 }

@@ -65,7 +65,7 @@ public class App
             case 'i':
                 return new HumanUIPlayer();
             case 'a':
-                return new AutomatedPlayer(ZiadHeuristic::estimate);
+                return new AutomatedPlayer();
             default:
                 return new HumanPlayer();
         }
