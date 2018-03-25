@@ -29,22 +29,6 @@ public class AutomatedPlayer implements Player {
 
     public AutomatedPlayer() { }
 
-    public HeuristicFunction<Game> getHeuristicFunction(Game game) {
-        HashMap<Character, Integer> map = new HashMap<>(7);
-
-        for (Piece piece: game.getPieces()) {
-            if (!map.containsKey(piece.getCharacter())) {
-                map.put(piece.getCharacter(), 1);
-            }
-        }
-
-        if (map.keySet().size() == 7) {
-            return LaurendyHeuristic::estimate;
-        }
-
-        return ZiadHeuristic::estimate;
-    }
-
     @Override
     public void init(Game init) {
 
@@ -56,7 +40,8 @@ public class AutomatedPlayer implements Player {
                 // Cost of moving
                 .useCostFunction((game, action) -> 1)
                 // Heuristic estimation
-                .useHeuristicFunction(this.heuristicFunction == null ? getHeuristicFunction(init) : this.heuristicFunction);
+                .useHeuristicFunction(this.heuristicFunction == null ?
+                        getHeuristicFunction(init) : this.heuristicFunction);
 
         AStarSearchProblem<Game, Action>.SearchResult result = problem.search(state -> state.getState().isEndGame());
 
@@ -64,10 +49,22 @@ public class AutomatedPlayer implements Player {
         step = 0;
     }
 
+    /**
+     * Returns available actions to a game.
+     *
+     * @param game
+     * @return
+     */
     private static Iterable<Action> getAvailableActions(Game game) {
         return getAvailableActions(game.getEmptyPiece());
     }
 
+    /**
+     * Get available actions for a piece.
+     *
+     * @param piece
+     * @return
+     */
     public static Iterable<Action> getAvailableActions(Piece piece) {
         List<Action> actions = new LinkedList<>();
         int[] positions = piece.getNeighboringPositions();
@@ -93,6 +90,13 @@ public class AutomatedPlayer implements Player {
         return actions;
     }
 
+    /**
+     * Returns the successor board with the action applied to it.
+     *
+     * @param board
+     * @param action
+     * @return
+     */
     private static Game applyActionToState(Game board, Action action) {
         Game successor = board.clone();
         Piece[] pieces = successor.getPieces();
@@ -117,6 +121,28 @@ public class AutomatedPlayer implements Player {
             e.printStackTrace();
         }
         return successor;
+    }
+
+    /**
+     * Determines which heuristic function to use depending on the game. If the game is not master use Ziad's Heuristics.
+     *
+     * @param game
+     * @return
+     */
+    public HeuristicFunction<Game> getHeuristicFunction(Game game) {
+        HashMap<Character, Integer> map = new HashMap<>(7);
+
+        for (Piece piece: game.getPieces()) {
+            if (!map.containsKey(piece.getCharacter())) {
+                map.put(piece.getCharacter(), 1);
+            }
+        }
+
+        if (map.keySet().size() == 7) {
+            return LaurendyHeuristic::estimate;
+        }
+
+        return ZiadHeuristic::estimate;
     }
 
     @Override

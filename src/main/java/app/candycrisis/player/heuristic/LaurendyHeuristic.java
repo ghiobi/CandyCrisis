@@ -10,6 +10,12 @@ import java.util.LinkedList;
 
 public class LaurendyHeuristic {
 
+    /**
+     * The estimation function
+     *
+     * @param game
+     * @return
+     */
     public static double estimate(Game game) {
         double count = 0;
         Piece[] pieces = game.getPieces();
@@ -38,6 +44,13 @@ public class LaurendyHeuristic {
     }
 
 
+    /**
+     * Returns the nearest piece that has the same character to the current piece.
+     *
+     * @param game the board game
+     * @param piece the piece
+     * @return the piece that has the same character
+     */
     private static Piece getNearest(Game game, final Piece piece) {
         Piece[] pieces = game.getPieces();
 
@@ -45,7 +58,6 @@ public class LaurendyHeuristic {
         HashMap<Piece, Piece> closed = new HashMap<>(15);
 
         open.push(piece);
-
         Piece current = null;
 
         do {
@@ -77,7 +89,6 @@ public class LaurendyHeuristic {
                     continue;
                 }
 
-
                 if (piece != successor && successor.getCharacter() == piece.getCharacter()) {
                     return successor;
                 }
@@ -91,6 +102,13 @@ public class LaurendyHeuristic {
         return current;
     }
 
+    /**
+     * Computes the distance between to pieces.
+     *
+     * @param piece
+     * @param other
+     * @return
+     */
     private static double computeDistance(Piece piece, Piece other) {
         return Math.sqrt((Math.pow(getPieceXPosition(piece) - getPieceXPosition(other), 2)) +
                 Math.pow(getPieceYPosition(piece) - getPieceYPosition(other), 2));

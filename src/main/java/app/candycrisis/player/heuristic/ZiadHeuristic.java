@@ -6,6 +6,12 @@ import app.candycrisis.Piece;
 
 public class ZiadHeuristic {
 
+    /**
+     * The estimation function
+     *
+     * @param state
+     * @return
+     */
     public static double estimate(Game state) {
         double count = 0;
         Piece[] pieces = state.getPieces();
@@ -55,4 +61,5 @@ public class ZiadHeuristic {
 
         return count / 7.4;
     }
+
 }
