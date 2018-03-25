@@ -6,6 +6,7 @@ import app.candycrisis.player.heuristic.ZiadHeuristic;
 import app.candycrisis.search.functions.HeuristicFunction;
 import app.candycrisis.utils.Event;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -100,6 +101,20 @@ public class RequirementsTest {
                 .start();
 
         assertTrue(System.currentTimeMillis() - start < options.get(level + "-t"));
+    }
+
+    @Ignore
+    @Test
+    public void testNonBlockingMasterGames() {
+        List<Game> games = new LinkedList<>();
+
+        for (int i = 0; i < 10000; i++) {
+            games.add(GameGenerator.generate(3));
+        }
+
+        new CandyCrisis(games, new AutomatedPlayer())
+                .onEnd(RequirementsTest::performAction)
+                .start();
     }
 
 }
