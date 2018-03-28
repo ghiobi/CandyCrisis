@@ -15,6 +15,7 @@ public class App
 {
     public static void main( String[] args ) throws Exception
     {
+        long startOfTime = System.currentTimeMillis();
         CommandLineParser parser = new DefaultParser();
 
         Options options = (new Options())
@@ -42,20 +43,18 @@ public class App
                 GameBuilder.build(reader),
                 getPlayer(line.hasOption("player") ? line.getOptionValue("player").charAt(0) : 'c'))
             .onEnd((event) -> {
-                PrintWriter writer = null;
-                try {
-                    String filename = line.hasOption("output") ? line.getOptionValue("output") : "output.txt";
-                    writer = new PrintWriter(new FileWriter(filename));
+                String filename = line.hasOption("output") ? line.getOptionValue("output") : "output.txt";
 
+                try(PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
                     writer.println(event.getSource().replaceAll("\n", "\r\n"));
+
+                    System.out.println("OUTPUT:\n");
                     System.out.println(event.getSource());
                 } catch (IOException e) {
                     e.printStackTrace();
-                } finally {
-                    if (writer != null) {
-                        writer.close();
-                    }
                 }
+
+                System.out.println("\nEXECUTION TIME: " + (System.currentTimeMillis() - startOfTime) + "ms");
             })
             .start();
     }
