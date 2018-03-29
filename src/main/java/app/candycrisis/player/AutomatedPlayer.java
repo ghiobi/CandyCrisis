@@ -11,7 +11,6 @@ import app.candycrisis.search.functions.HeuristicFunction;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Function;
 
 public class AutomatedPlayer implements Player {
 
@@ -130,15 +129,15 @@ public class AutomatedPlayer implements Player {
      * @return
      */
     public HeuristicFunction<Game> getHeuristicFunction(Game game) {
-        HashMap<Character, Integer> map = new HashMap<>(7);
+        HashMap<Character, Boolean> map = new HashMap<>(7);
 
         for (Piece piece: game.getPieces()) {
             if (!map.containsKey(piece.getCharacter())) {
-                map.put(piece.getCharacter(), 1);
+                map.put(piece.getCharacter(), true);
             }
         }
 
-        if (map.keySet().size() == 7) {
+        if (map.keySet().size() >= 7) {
             return LaurendyHeuristic::estimate;
         }
 
