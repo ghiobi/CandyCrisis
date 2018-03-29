@@ -8,7 +8,7 @@ import app.candycrisis.player.heuristic.ZiadHeuristic;
 import app.candycrisis.search.AStarSearchProblem;
 import app.candycrisis.search.functions.HeuristicFunction;
 
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -129,15 +129,15 @@ public class AutomatedPlayer implements Player {
      * @return
      */
     public HeuristicFunction<Game> getHeuristicFunction(Game game) {
-        HashMap<Character, Boolean> map = new HashMap<>(7);
+        HashSet<Character> map = new HashSet<>(8);
 
         for (Piece piece: game.getPieces()) {
-            if (!map.containsKey(piece.getCharacter())) {
-                map.put(piece.getCharacter(), true);
+            if (!map.contains(piece.getCharacter())) {
+                map.add(piece.getCharacter());
             }
         }
 
-        if (map.keySet().size() >= 7) {
+        if (map.size() >= 7) {
             return LaurendyHeuristic::estimate;
         }
 
